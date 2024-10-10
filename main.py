@@ -324,8 +324,8 @@ def event_booking(event_type):
                                 name = f_name+" "+l_name
                                 email = email
                                 messages = clean(escape(f"Dear {f_name} Your Reserve Hotel from Hotel is successfully Done!\n Your Event Type is: {event_type}\nYour Event Date is: {event_date}\n Your Start Time: {start_time}\nRoom Required: Yes\nCatering Required: No\nHave a Good Time!"))
-                                passw = "jvqo ohff thol ovay"
-                                from_user = "yeabsiratesfaye4118@gmail.com"
+                                passw = ""
+                                from_user = ""
                                 to_user = email
                                 subject = "Hotel Booking"
                                 message = MIMEMultipart()
@@ -472,6 +472,7 @@ def event_booking(event_type):
                             cur.close()
         return render_template("event_book.html",event_type = event_type,form = form, error_catering_field =error_catering_field, error_room_field=error_room_field,room_field=room_field,catering_field=catering_field)
         
+
 
 
 
