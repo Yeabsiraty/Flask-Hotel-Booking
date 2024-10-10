@@ -3,19 +3,20 @@
 
       --- edit this codes ---
 
-2. on the first main.py file and on the second file which found on the hotel admin edit this code
+2. on the first main.py file and on the second file main.py file which found on the hotel admin folder edit this code on both of them
       app.config["SECRET_KEY"] = "thisissecret@34256^&"
       app.config['MYSQL_HOST'] = '' #your host mostly it is 'localhost'
       app.config['MYSQL_USER'] = '' # your database username
       app.config['MYSQL_PASSWORD'] = '' # your database password
       app.config['MYSQL_DB'] = 'My_Hotel'
 
-3. on the first main.py change this code to make the email sending process work the hotel admin have no email sending process
+3. on the first main.py change this code to make the email sending process work the hotel admin folder main.py file have no email sending    process
       passw = "" # use your email password
       from_user = ""  # use your email on this 
 
-4. to login in admin dashboard first you need to edit main.py found inside hotel admin
+4. to login in admin dashboard first you need to edit main.py found inside hotel admin folder
       1) on line 37 edit the status_check code delete 'not' or replace the status_check method with this code until you logeed in and              create an admin:
+                  # --- copy the above code and replace it with the status_check code --- #
                         def status_check(f):
                             @wraps(f)
                             def decorated_function(*args, **kwargs):
@@ -23,12 +24,14 @@
                                     return redirect(url_for("login")) 
                                 return f(*args, **kwargs)
                             return decorated_function
+                              
       2) after you change the status_check code now simplly add this url on the browser next to the page url like this
-            - add dashboard next to the url like this
+            - add '/dashboard' next to the url like this
                   - http://127.0.0.1:5000/dashboard
-                  - and now you redirect to the dashboard so got to the staff and add employee and dont forget his or her Employee_Id                         first name and last name.
-                  - goto admin and click on add button and add new admin dont forget the Employee_Id,First_Name and Last_Name must be the                     same with the staff table data 
-                  - after you add the admin dont forget to change the status_check method with this code which found on line 37 
+                  - and now you redirect to the dashboard now get to the staff and add employee and dont forget his or her Employee_Id                         first name and last name.
+                  -  after you add new employee go to admin and click on add button and add new admin don't forget the                   
+                     Employee_Id,First_Name and Last_Name must be the same with the staff table data which you created before the new                          staff.
+                  - after you add the admin don't forget to change the status_check method with this code which found on line 37 
                         def status_check(f):
                             @wraps(f)
                             def decorated_function(*args, **kwargs):
@@ -36,7 +39,7 @@
                                     return redirect(url_for("login")) 
                                 return f(*args, **kwargs)
                             return decorated_function
-
+      3) now you create admin so you can login with his or her username and password on the admin dashboards
 ------------------------------------------------- Thank You ---------------------------------------------------------
       
       
