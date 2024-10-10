@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg!=" crossorigin="anonymous" referrerpolicy="no-referrer" /><meta charset="UTF-8">
+    
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Document</title>
+</head>
+<div class="center_content">
+    <div id="message" style="margin-left: 10%;">
+        <h4>
+            {%with messages=get_flashed_messages(with_categories=True)%}
+        {%if messages%}
+            {%for category,message in messages%}
+                {%if category=="success"%}
+                    <span class="alert_sess"  >{{message}} <button class="message_close" onclick="flash_message()" ><i class="fa-solid fa-x"></i></button> </span>
+                {%endif%}
+                {%if category=="error"%}
+                <br><br>
+                    <span class="alert_errs"  >{{message}} <button class="message_close" onclick="flash_message()"><i class="fa-solid fa-x"></i></button></span>
+                {%endif%}
+        
+            {%endfor%}
+        {%endif%}
+        {%endwith%}
+        </h4>
+        </div>
+    {%block content%}
+
+    {%endblock%}
+</div>
+</div>
+<body class="login_background">
+    <h1 style="text-align: center;font-size:55px;color: rgb(73, 71, 71)">Admin Dashboard</h1>
+    <div class="login_form">        
+    <form action="" method="post" novalidate>
+                {{form.csrf_token}}
+                {{ form.hidden_tag() }}
+                {%import "macro.html" as mac%}
+                {{mac.render_field(form.username)}} <br><br>
+                {{mac.render_field(form.password)}} <br><br><br>
+                <input type="submit" value="Login" id="login_btn">
+            </form>
+        </div>
+
+
+        <script src="../static/script.js">
+            function flash_message(){
+                var x = document.getElementById("message")
+                x.style.display="none"
+              }
+              
+        </script>
+</body>
+</html>

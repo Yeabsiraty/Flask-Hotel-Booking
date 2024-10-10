@@ -1,0 +1,269 @@
+{% extends 'forall.html' %}
+{% block content %}
+<h1 class="room_text">Room</h1><br>
+
+<div class="search">
+    <input type="text" id="search_input" placeholder="room no search" oninput="liveSearch()">
+</div>
+
+
+<div class="delete_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Admin Confirmation</h1>
+    <form action="{{url_for('room_delete')}}" method="post">
+        <h3>Room Number: <span style="color: red;"  id="room_number_d_input"></span></h3><br>
+        <input type="hidden" name="room_no" placeholder="Room No"  id="delete_input"  required>
+        <input type="password" name="password" placeholder="Password" required ><br><br>
+        <input type="submit" value="Delete" class="confirm_btn">
+    </form>
+</div>
+<div class="edit_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Edit Room Number <span id="room_number_input_edit" style="color: rgb(255, 0, 0);"></span></h1>
+    <form action="{{url_for('room_edit')}}" method="post" enctype="multipart/form-data">
+        <div class="edit_values">
+            <input type="hidden" value="" name="room_no" id="room_no_input_hidden">
+            <label for="">Room Type</label><br><br>
+            <select name="room_type" value="" id="erebakesera">
+                <option value="Presidential">Presidential</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Familly">Familly</option>
+                <option value="Appartment">Appartment</option>
+            </select><br><br>
+            <label for="">Room Size</label><br><br>
+            <input type="text" name="room_size" value="" id="room_size_input"><br><br>
+        </div>
+        <div class="edit_labels">
+            <label for="">Room Price</label><br><br>
+            <input type="text" name="room_price" value="" id="room_price_input"><br><br>
+            <label for="">Room Image</label><br><br>
+            <input type="file" name="room_image" accept="image/*" class="upload" ><br><br>
+        </div>
+        
+        <div class="submit_edit_btn">
+            <input type="submit" value="Edit" class="edit_btn">
+        </div>
+    </form>
+</div>
+
+
+<div class="edit_square" id="add_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Add Room</h1>
+    <form action="{{url_for('room_add')}}" method="post" enctype="multipart/form-data">
+        <div class="edit_labels">
+            <label for="">Room Type</label><br><br>
+            <select name="room_type" id="room_type">
+                <option value=""></option>
+                <option value="Presidential">Presidantial</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Familly">Familly</option>
+                <option value="Appartment">Appartment</option>
+            </select><br><br>
+            <label for="">Room Size</label><br><br>
+            <input type="text" name="room_size" value=""><br><br>
+        </div>
+        <div class="edit_values">
+            <label for="">Room Price</label><br><br>
+            <input type="text" name="room_price" value=""><br><br>
+            <label for="">Room Image</label><br><br>
+            <input type="file" name="room_image" accept="image/*" class="upload" ><br><br>
+        </div>
+        <div class="submit_edit_btn">
+            <input type="submit" value="Add Room" class="add_btns">
+        </div>
+    </form>
+</div>
+<div id="room_table">
+    {% if database %}
+    <table border="1px" class="room_table table">
+        <thead>
+            <tr>
+                <th>Room No</th>
+                <th>Room Type</th>
+                <th>Room Price</th>
+                <th>Room Size</th>
+                <th>Room Availability</th>
+                <th>Room Image</th>
+                <th>Edit Rooms</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in database %}
+            <tr>
+                <td>{{ data["Room_No"] }}</td>
+                <td>{{ data["Room_Type"] }}</td>
+                <td>{{ data["Room_Price"] }}</td>
+                <td>{{ data["Room_Size"] }}</td>
+                <td>{{ data["Room_Availability"] }}</td>
+                <td style="width: 15%;">
+                    <div class="table_image">
+                        {% if data["Room_Image"] %}
+                        <img src="{{ data['Room_Image'] }}" alt="Room Image" class="img_database">
+                        {% else %}
+                        <p>No image available</p>
+                        {% endif %}
+                    </div>
+                </td>
+                <td>
+                    <div class="button">
+                        <div class="edit">
+                            <button onclick="toggleEdit('{{ data['Room_No'] }}', '{{ data['Room_Type'] }}', '{{ data['Room_Price'] }}', '{{ data['Room_Size'] }}', '{{ data['Room_Image'] }}')">Edit</button>
+                        </div>
+                        <div class="delete">
+                            <button onclick="toogle_delete('{{ data['Room_No'] }}')">Delete</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No rooms available.</p>
+    {% endif %}
+    <div class="room_buttons">
+    <button class="add_btn" onclick="toggle_add()">Add</button><br>
+    <a href="{{url_for('room')}}"><button class="refreshe_button">Refreshe</button></a>
+</div>
+</div><br><br><br>
+    
+
+<script>
+    function toggleEdit(roomNo, roomType, roomPrice, roomSize, roomImage) {
+        const deleteSquare = document.querySelector('.delete_square');
+        const editSquare = document.querySelector('.edit_square');
+        const x = document.querySelector('.add_square')
+        const room_no = document.getElementById("room_number_input_edit")
+        const roomSizeInput = document.getElementById('room_size_input');
+        const roomPriceInput = document.getElementById('room_price_input');
+        const room_no_hi = document.getElementById("room_no_input_hidden");
+        const type = document.getElementById("erebakesera");
+     room_no_hi.value = roomNo;
+
+    room_no.innerHTML = roomNo;
+    erebakesera.value = roomType;
+    roomSizeInput.value = roomSize;
+    roomPriceInput.value = roomPrice;
+
+   
+
+        if (editSquare.style.display === 'block') {
+            editSquare.style.display = 'none';
+        } else {
+            deleteSquare.style.display = 'none'; 
+            editSquare.style.display = 'block';
+            x.style.display = 'none.'
+        }
+    }
+
+    function toogle_delete(roomNo) { 
+        const editSquare = document.querySelector('.edit_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        const x = document.querySelector('.add_square')
+        const room_n = document.getElementById('room_number_d_input');
+        const d_inp = document.getElementById('delete_input');
+
+        d_inp.value = roomNo;
+        room_n.innerHTML = roomNo;
+
+        if (deleteSquare.style.display === 'block') {
+            deleteSquare.style.display = 'none';
+            const x = document.querySelector('.add_square')
+        } else {
+            editSquare.style.display = 'none'; 
+            deleteSquare.style.display = 'block';
+            x.style.display = 'none';
+        }
+    }
+
+    function toggle_add() {
+        const x = document.getElementById('add_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        const editSquare = document.querySelector('.edit_square');
+
+        if (x.style.display === 'block') {
+            x.style.display = 'none';
+        } else {
+            x.style.display = 'block';
+            editSquare.style.display = 'none'; 
+            deleteSquare.style.display = 'none';
+        }
+    }
+
+    function toggleclose(){
+        const editSquare = document.querySelector('.edit_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        const x = document.getElementById('add_square');
+        editSquare.style.display = "none";
+        deleteSquare.style.display = 'none';
+        x.style.display = 'none';
+    }
+
+
+    function liveSearch() {
+        const searchInput = document.getElementById('search_input').value;
+        fetch('/search_room', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `search=${encodeURIComponent(searchInput)}`
+        })
+        .then(response => response.json())
+        .then(data => updateRoomTable(data));
+    }
+
+    function updateRoomTable(rooms) {
+        const roomTable = document.getElementById('room_table');
+        roomTable.innerHTML = `
+            <table border="1px" class="room_table table">
+                <thead>
+                    <tr>
+                        <th>Room No</th>
+                        <th>Room Type</th>
+                        <th>Room Price</th>
+                        <th>Room Size</th>
+                        <th>Room Availability</th>
+                        <th>Room Image</th>
+                        <th>Edit Rooms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rooms.map(data => `
+                        <tr>
+                            <td>${data["Room_No"]}</td>
+                            <td>${data["Room_Type"]}</td>
+                            <td>${data["Room_Price"]}</td>
+                            <td>${data["Room_Size"]}</td>
+                            <td>${data["Room_Availability"]}</td>
+                            <td style="width: 15%;">
+                                <div class="table_image">
+                                    ${data["Room_Image"] ? `<img src="${data['Room_Image']}" alt="Room Image" class="img_database">` : '<p>No image available</p>'}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="button">
+                                    <div class="edit">
+                                        <button onclick="toggleEdit('${data['Room_No']}', '${data['Room_Type']}', '${data['Room_Price']}', '${data['Room_Size']}', '${data['Room_Image']}')">Edit</button>
+                                    </div>
+                                    <div class="delete">
+                                        <button onclick="toogle_delete('${data['Room_No']}')">Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+    
+    <div class="room_buttons">
+    <button class="add_btn" onclick="toggle_add()">Add</button><br>
+    <a href="{{url_for('room')}}"><button class="refreshe_button">Refreshe</button></a>
+</div>
+</div><br><br><br>
+        `;
+    }
+</script>
+
+{% endblock %}

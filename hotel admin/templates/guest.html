@@ -1,0 +1,199 @@
+{% extends 'forall.html' %}
+{% block content %}
+<h2 class="todays_checkout" style="color: var(--text_color2);">Guest</h2>
+<br>
+
+<div class="search">
+    <input type="text" id="search_input" placeholder="room no search" oninput="liveSearch()">
+</div>
+
+<div class="delete_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Admin Confirmation</h1>
+    <h3 style="text-align: center;">Guest Id: <span style="color: red;" id="guest_id_del"></span></h3>
+    <form action="{{url_for('guest_delete')}}" method="post">
+        <input type="hidden" value="" name="guest_id" id="guest_id_in">
+        <input type="password" name="password" placeholder="Password" id="password_delete" required><br><br>
+        <input type="submit" value="Delete" class="confirm_btn">
+    </form>
+</div>
+
+<div class="edit_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Edit Guest Id: <span id="guest_id" style="color: red;"></span></h1>
+    <form action="{{url_for('guest_edit')}}" method="post">
+        <div class="edit_values">
+            <input type="hidden" value="" name="guest_id" id="guest_id_input">
+            <label for="">First Name</label><br><br>
+            <input type="text" name="f_name" value="" id="first_name_input"><br><br>
+            <label for="">Gender</label><br><br>
+            <select name="gender" id="gender_input">
+                <option value=""></option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select><br><br>
+            <label for="">Email</label><br><br>
+            <input type="email" name="email" value="" id="email_input"><br><br>
+        </div>
+        <div class="edit_labels">
+            <label for="">Last Name</label><br><br>
+            <input type="text" name="l_name" value="" id="last_name_input"><br><br>
+            <label for="">Phone Number</label><br><br>
+            <input type="number" name="phone_no" value="" id="phone_no_input"><br><br>
+        </div>
+        <div class="submit_edit_btn">
+            <input type="submit" value="Edit" class="edit_btn">
+        </div>
+    </form>
+</div>
+
+<div class="today">
+    <div class="not_table" id="room_table">  
+        {% if database2 %}
+            <table border="1px" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Customer Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th style="width: 15%;">Edit Rooms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in database2 %}
+                    <tr style="font-size: 14px;">
+                        <td>{{ data["User_Id"] }}</td>
+                        <td>{{ data["First_Name"] }}</td>
+                        <td>{{ data["Last_Name"] }}</td>
+                        <td>{{ data["Gender"] }}</td>
+                        <td>{{ data["Phone_Number"] }}</td>
+                        <td>{{ data["Email"] }}</td>
+                        <td>
+                            <div class="button button_guest">
+                                <div class="edit">
+                                    <button onclick="toggleEdit('{{ data['User_Id'] }}', '{{ data['First_Name'] }}', '{{ data['Last_Name'] }}', '{{ data['Gender'] }}', '{{ data['Phone_Number'] }}', '{{ data['Email'] }}')">Edit</button>
+                                </div>
+                                <div class="delete">
+                                    <button onclick="toggle_delete('{{ data['User_Id'] }}')">Delete</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h1 style="text-align: center;color: var(--text_color2);margin-top: 10%;">No Guest Found!</h1>
+        {% endif %}
+    
+
+    <div class="room_buttons">
+        <a href="{{ url_for('guest') }}"><button class="refreshe_button">Refresh</button></a>
+    </div><br><br>
+</div>
+
+<script>
+    function toggleEdit(userid, fname, lname, gender, phone, email) {
+        const deleteSquare = document.querySelector('.delete_square');
+        const editSquare = document.querySelector('.edit_square');
+        const gi = document.getElementById('guest_id_input');
+        const fn = document.getElementById('first_name_input');
+        const ln = document.getElementById('last_name_input');
+        const geen = document.getElementById('gender_input');
+        const ph = document.getElementById('phone_no_input');
+        const em = document.getElementById('email_input');
+        const id = document.getElementById('guest_id');
+        id.innerHTML = userid;
+        gi.value = userid;
+        fn.value = fname;
+        ln.value = lname; 
+        geen.value = gender;
+        ph.value = phone;
+        em.value = email;
+
+        deleteSquare.style.display = 'none'; 
+        editSquare.style.display = 'block';
+    }
+
+    function toggle_delete(userid2) {
+        const editSquare = document.querySelector('.edit_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        const ids = document.getElementById('guest_id_del');
+        const gs = document.getElementById("guest_id_in");
+        gs.value = userid2;
+        ids.innerHTML = userid2;
+        editSquare.style.display = 'none'; 
+        deleteSquare.style.display = 'block';
+    }
+
+    function toggleclose() {
+        const editSquare = document.querySelector('.edit_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        editSquare.style.display = 'none'; 
+        deleteSquare.style.display = 'none';
+    }
+
+    function liveSearch() {
+        const searchInput = document.getElementById('search_input').value;
+        fetch('/search_guest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `search=${encodeURIComponent(searchInput)}`
+        })
+        .then(response => response.json())
+        .then(data => updateRoomTable(data));
+    }
+
+    function updateRoomTable(rooms) {
+        const roomTable = document.getElementById('room_table');
+        roomTable.innerHTML = `
+            <table border="1px" class="room_table table">
+                <thead>
+                    <tr>
+                        <th>Customer Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th style="width: 15%;">Edit Rooms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   ${rooms.map(data => `
+                    <tr style="font-size: 14px;">
+                        <td>${ data["User_Id"] }</td>
+                        <td>${ data["First_Name"] }</td>
+                        <td>${ data["Last_Name"] }</td>
+                        <td>${ data["Gender"] }</td>
+                        <td>${ data["Phone_Number"] }</td>
+                        <td>${ data["Email"] }</td>
+                        <td>
+                            <div class="button button_guest">
+                                <div class="edit">
+                                    <button onclick="toggleEdit('${ data['User_Id'] }', '${ data['First_Name'] }', '${ data['Last_Name'] }', '${ data['Gender'] }', '${ data['Phone_Number'] }', '${ data['Email'] }')">Edit</button>
+                                </div>
+                                <div class="delete">
+                                    <button onclick="toggle_delete('${ data['User_Id'] }')">Delete</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+    </div>
+
+    <div class="room_buttons">
+        <a href="{{ url_for('guest') }}"><button class="refreshe_button">Refresh</button></a>
+    </div><br><br>
+</div>
+        `;
+    }
+</script>
+{% endblock %}

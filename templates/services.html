@@ -1,0 +1,60 @@
+{%extends "forall.html"%}
+{%block content%}
+    <div class="welcome_h1 welcome_h1_service"><h1>Services.</h1></div>
+    <div class="welcome_text_img ">
+        <div class="welcome_img ">
+                <img src="{{ data['Room_Image'] }}" alt="">
+        </div>
+        <div class="welcome_text ">
+           
+            <p><h1 class="r_e_text" style="text-align: center;">Rooms.</h1>Lorem ipsum dolor, sit amet consectetur 
+                adipisicing elit. Non porro est exercitationem assumenda? Quos distinctio officiis
+                 obcaecati, <span class="welcome-text-phone">sunt voluptas ex voluptatum error accusamus architecto temporibus pari
+                 atur voluptatibus, iste aperiam cum beatae voluptates culpa labore non rem place
+             
+                  llendus consequuntur facilis sit ipsa nemo minima vero animi adipisci laboriosam odit voluptatum labore, nam dolore voluptatibus deleniti laborum. Vero rem repellat odit maiores optio non  .</span></p>
+                  
+    <br>
+    <a href="{{url_for('rooms')}}"><button class="book_now_text">Book Now</button></a>
+                </div>
+                </div>
+    <div class="About_h1"><h1 >Events.</h1></div>
+    <div class="About_text_img reveals">
+        <div class="About_text reveal">
+            <p><h1 style="text-align: center;" class="r_e_text">Events.</h1>
+                 bus unde, sint omnis, incidunt error. Totam, similique nisi culpa eos repellendus consequuntur facilis sit ipsa nemo minima vero animi adipisci laboriosam odit voluptatum labore <span class="welcome-text-phone"> , nam dolore voluptatibus deleniti laborum. Vero rem repellat odit maiores optio non harum cum esse incidunt dicta repudiandae ut, omnis laborum autem dolore soluta, iure quibusdam tempore voluptates recusandae vitae  .</span></p>
+        
+    <br>
+    <a href="{{url_for('events')}}"><button class="book_now_text">Book Now</button></a>
+                </div>
+        <div class="About_img "> 
+        </div>
+    </div>
+    <br>
+    <br><br>
+    <br>
+    <hr style="width: 60%;margin-left: 20%;">
+    <br><br>
+    <br>
+    <br>
+    <br>
+    <script src="../static/script.js"></script>
+    <script>
+        window.addEventListener('scroll',reveal);
+        function reveal(){
+        var reveals = document.querySelectorAll('.reveal')
+        for (var i=0; i<reveals.length; i++){
+        var windowheight = window.innerHeight;
+        var revealtop = reveals[i].getBoundingClientRect().top;
+        var revealpoint = 150;
+        if(revealtop<windowheight - revealpoint){
+          reveals[i].classList.add('active');
+        }
+        else{
+          reveals[i].classList.remove('active');
+        }
+        }
+        }
+    
+        </script>
+        {%endblock%}

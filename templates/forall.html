@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg!=" crossorigin="anonymous" referrerpolicy="no-referrer" /><meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <div class="header">
+        <div class="logo">
+            <h3>Hotel</h3>
+        </div>
+    <div class="navbar">
+        <ul>
+            <li><a href="{{url_for('home')}}">Home</a></li>
+            {%if s_show != False%}
+            <li><a href="{{url_for('services')}}">Services</a></li>
+            {%endif%}
+            {%if r_show != False%}
+            <li><a href="{{url_for('rooms')}}">Rooms</a></li>
+            {%endif%}
+            {%if e_show != False%}
+            <li><a href="{{url_for('events')}}">Events</a></li>
+            {%endif%}
+        </ul>
+    </div>
+    <div class="night_mode" >
+        <i class="fa-solid fa-moon" onclick="toggleMode()"></i>
+        <i class="fa-solid fa-bars" style="margin-left:2%;"  id="burger-bar" onclick="bardisplay()"></i>
+        <i class="fa-solid fa-x" id="burger-close" onclick="bardisplay()" style="font-weight: bold;"></i>
+    </div>
+    
+</div>
+<div id="message">
+    <h4>
+        {%with messages=get_flashed_messages(with_categories=True)%}
+    {%if messages%}
+        {%for category,message in messages%}
+            {%if category=="success"%}
+                <span class="alert_sess"  >{{message}} <button class="message_close" onclick="flash_message()" ><i class="fa-solid fa-x"></i></button> </span>
+            {%endif%}
+            {%if category=="error"%}
+            <br><br>
+                <span class="alert_errs"  >{{message}} <button class="message_close" onclick="flash_message()"><i class="fa-solid fa-x"></i></button></span>
+            {%endif%}
+    
+        {%endfor%}
+    {%endif%}
+    {%endwith%}
+    </h4>
+    </div>
+    <div class="bar_phone" id="bar_phone">
+        <ul>
+          {%if h_show!=False%}
+          <a href="{{url_for('home')}}"><li style="height: 20px;">Home</li></a>
+          {%endif%}
+          {%if s_show != False%}
+          <a href="{{url_for('services')}}"><li style="height: 20px;">Services</li></a>
+          {%endif%}
+          {%if r_show != False%}
+          <a href="{{url_for('rooms')}}"><li style="height: 20px;">Rooms</li></a>
+          {%endif%}
+          {%if e_show != False%}
+          <a href="{{url_for('events')}}"><li style="height: 20px;">Events</li></a>
+          {%endif%}
+      </div>
+</head>
+<body style="margin-top: 100px;">
+    
+    {%block content%}
+
+    {%endblock%}
+  
+</body>
+<footer>
+    <div class="footers">
+        <div class="footer-text">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A reprehenderit, voluptas totam corrupti et quas quis facere <span class="text-fotter">reiciendis velit eius vitae sequi modi omnis nesciunt! Ut aspernatur voluptatum qui architecto!</span></p>
+        </div>
+        <div class="fotter_link" >
+            <ul>
+                {%if h_show!=False%}
+                <li><a href="{{url_for('home')}}">Home</a></li>
+                {%endif%}
+                {%if s_show != False%}
+                <li><a href="{{url_for('services')}}">Services</a></li>
+                {%endif%}
+                {%if r_show != False%}
+                <li><a href="{{url_for('rooms')}}">Rooms</a></li>
+                {%endif%}
+                {%if e_show != False%}
+                <li><a href="{{url_for('events')}}">Events</a></li>
+                {%endif%}
+               
+            </ul>
+        </div>
+        <div class="fotter_contact">
+            
+            <ul>
+                <li><i class="fa-brands fa-facebook"></i></li>
+                <li><i class="fa-brands fa-x-twitter"></i></li>
+                <li><i class="fa-brands fa-whatsapp"></i></li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div class="copyritght">
+        <h4>&copy; || All Right Reserved 200000</h4>
+    </div><br>
+</footer>
+</html>
+<script src="../static/script.js">
+    function bardisplay(){
+        const b = document.getElementById("bar_phone")
+        const a = document.getElementById("burger-bar")
+        const c= document.getElementById("burger-close")
+        if (b.style.display === "none"){
+          b.style.display = "block";
+          a.style.display = "none";
+          c.style.display = "block"
+        }
+        else{
+          c.style.display = "none"
+          b.style.display = "none";
+          a.style.display = "block";
+        }
+      
+      }
+</script>

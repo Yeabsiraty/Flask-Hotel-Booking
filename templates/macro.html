@@ -1,0 +1,7 @@
+{% macro render_field(field,id="")%}
+{{field.label(class="form_label",id=id)}}
+{{field(class="form_input")}}
+{%for error in field.errors:%}
+<br><span class="errors" style="color: red;">{{error}}</span><br>
+{%endfor%}
+{%endmacro%}

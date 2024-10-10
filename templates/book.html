@@ -1,0 +1,226 @@
+{%extends "forall.html"%}
+{%block content%}
+<body >
+<!--load circle-->
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap">
+
+
+ 
+
+ 
+
+  <div class="preloader" id="preloader">
+    <div class="preloader__logo">
+      <div class="preloader__circle"></div>
+    </div>
+  </div>
+
+<!--load circle done-->
+
+<div class="book_date_cart" >
+    <div class="book_date"  >
+        <div class="check_in" id="book_blur2" >
+            <h1 class="fill_field">Fill This Field</h1>
+            <form action="{{url_for('check_in_form')}}" method="post" class="checkin_form" novalidate >
+                <div class="form_labels" >
+                    <label  for="num_adults" class="num_phone"><span class="welcome-text-phone">Number of </span>Adults</label>
+                    <label for="num_kids" class="num_phone"><span class="welcome-text-phone">Number of </span>Kids</label>
+                    <label for="check_in">Check-in <span class="welcome-text-phone">Date</span></label>
+                    <label for="check_out">Check-out <span class="welcome-text-phone">Date</span></label>
+                </div>
+                <div class="form_input">
+                    <span class="width_input">
+                <select class="input select_phone" name="num_adults" id="num_adults" required>
+                    {% set num_adults = cookie_data.get("num_adults", 1) %}
+                    {% for i in range(1, 5) %}
+                    <option value="{{ i }}" {% if i == num_adults %} selected {% endif %}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </span>
+                
+                
+            <span class="width_input">
+                <select class="input select_phone select_phone2" name="num_kids" id="num_kids" required>
+                    {% set num_kids = cookie_data.get("num_kids", 0) %}
+                    {% for i in range(0, 5) %}
+                    <option value="{{ i }}" {% if i == num_kids %} selected {% endif %}>{{ i }}</option>
+                    {% endfor %}
+                    
+                </select>
+                </span>
+                
+                <span class="width_input">
+                <input class="input check_date" type="date" name="check_in" id="check_in" value="{{cookie_data.get('check_in','')}}" required>
+                <h4 style=" color: red;font-weight: normal;margin:1px 0 0 3%;" class="error_phone">{{error}}</h4>
+            </span>
+            <span class="width_input">
+                <input class="input check_date check_date2" type="date" name="check_out" id="check_out" value="{{cookie_data.get('check_out','')}}" required>
+                <h4 style="color: red;font-weight: normal;margin:1px 0 0 3%;" class="error_phone">{{error2}}</h4>
+                </span>
+            </div>
+                <button class="date_search  book_button"  id="searchButton">search</button>
+            </form>
+        </div>
+        <div class="filter" >
+           <button class="filter_button" > <i class="fa-solid fa-filter filter_text"><span class="filter_texts" > filter</span></i></button>
+        </div>
+        <div class="search_show search_show_phone" id="book_blur" class="blurred search_show_phone" style="opacity: 1;" >
+            <br>
+            {%if database and error==""%}
+            <h1 class="search_result">Result: {{session["Result_length"]}}</h1>
+            {%for database in database%}
+            <div class="searched_value" >
+                <div class="image_data">
+                    <div class="img_database">
+                        {% if database["Room_Image"] %}
+                        <img src="{{ database['Room_Image'] }}" alt="Room Image" class="img_database">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}</div>
+                    <div class="img_data">
+                        <ul class="image_consist">
+                            <li>Bathroomtub</li>
+                            {%if database["Room_Type"] != "Appartment"%}
+                            <li>Hair Dryer</li>
+                            {%endif%}
+                            <li>Free Wifi</li>
+                            {%if database["Room_Type"] != "Familly" and database["Room_Type"] != "Appartment"%}
+                            <li>Air Conditioning</li>
+                            {%endif%}
+                            {%if database["Room_Type"] != "Deluxe" and database["Room_Type"] != "Familly" and database["Room_Type"] != "Appartment"%}
+                            <li>Washing Machine</li>
+                            {%endif%}
+                        </ul><br>
+                    </div>
+                </div>
+                <div class="about_room">
+                    <div class="top_about">
+                        <h1 class="room_type" id="room_type_tt">{{database["Room_Type"]}}</h1><hr>
+                        <h5>Room Size: {{database["Room_Size"]}} <span style="font-size: 14px;"> square feet</span></h5><br>
+                        <h3  id="room_type">Room Type: {{database["Room_Type"]}}</h3><hr class="phone_row">
+                        <h1 class="about_room_text">About Room</h1>
+                        <hr style="margin-top:2%;" class="phone_row">
+                    </div>
+                    <div class="bottom_about">
+                        <div class="left_about">
+                            <h2>Guarented with credite card</h2>
+                            <h2>BrekFast Include</h2>
+                            <p class="no_on_phone">Enjoy a relaxed arrival and departure with 
+                                Free Early Check In from 9:00AM and Late 
+                                Checkout until 4:00PM based on availability.</p>
+                        </div>
+                        <div class="right_about">
+                            <h2>price <span class="price_other">${{database['Room_Price']}}</span></h2>
+                            <h6>per Night</h6>
+                            <h1>Total for <span class="price_other">{{cookie_data.get("length_of_stay")}}</span> days <span class="price_other" style="font-size: 24px;color: rgb(255, 0, 0)">${{(cookie_data.get('num_kids')*2 )+(cookie_data.get("num_adults"))+(database["Room_Price"]* cookie_data.get("length_of_stay"))}} </span></h1>
+                            <a href="{{ url_for('book_room',r_no=database['Room_No'])}}"><button class="book_button" >Book Now</button></a> 
+                            <br><br></div>
+                    </div>
+                </div>
+            </div><br><br><br>
+            {%endfor%}
+            {%else%}
+
+    
+            
+
+    
+
+
+
+            <h1 class="search_result">Result: </h1>
+                {% if error=="" %}
+                    <h1 class="search_no">Ops! Their Is No Available Room.</h1>
+                {%else%}
+                <h1 class="search_no"></h1>
+                {% endif %}
+            {% endif %}
+            <br><br><br>
+        </div>
+    </div>
+
+    <div class="book_cart" id="book_blur2">
+                <h2 class="cart_text">Welcome</h2>
+                <hr>
+                
+            <div class="cart_contents">
+                <div class="cart_detail">
+                    <h3 class="num_ad" >Adult: <span  style="color: orange;">{{cookie_data.get("num_adults", 1)}}</span></h3><hr>
+                    <h3 class="num_ad">Kids: <span  style="color: orange;">{{cookie_data.get("num_kids")}}</span></h3><hr>
+                    <h3 class="time_check">Check In: <span  style="color: orange;">{{cookie_data.get('check_in','')}}</span></h3><hr>
+                    <h3 class="time_check">Check Out: <span  style="color: orange;">{{cookie_data.get("check_out")}}</span></h3><hr>
+                    <h3 class="time_check3">Your Stay: <span  style="color: orange;">{{cookie_data.get("length_of_stay")}}</span> days.</h3>
+                   
+                </div>
+                
+                <br><br><br><br>
+            </div>
+            <hr><br><br><br>
+
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+</div>
+
+
+
+<br><br>
+
+</body>
+</html>
+<script src="../static/script.js"></script>
+
+
+
+<script>
+    // Set the minimum check-in date to tomorrow
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1); // Set to tomorrow
+tomorrow.setHours(0, 0, 0, 0); // Clear time for comparison
+
+const checkInInput = document.getElementById('check_in');
+checkInInput.setAttribute('min', tomorrow.toISOString().split('T')[0]); // Sets tomorrow's date as the min for check-in
+
+// Set the min attribute for check-out date based on the check-in date selection
+const checkOutInput = document.getElementById('check_out');
+
+checkInInput.addEventListener('change', function() {
+    const checkInDate = new Date(checkInInput.value);
+    checkInDate.setDate(checkInDate.getDate() + 1); // Check-out must be at least one day after check-in
+    checkOutInput.setAttribute('min', checkInDate.toISOString().split('T')[0]); // Set min check-out date
+});
+
+document.getElementById('searchButton').addEventListener('click', function () {
+    const preloader = document.getElementById('preloader');
+    const bookBlur = document.getElementById("book_blur");
+    const bookBlur2 = document.getElementById("book_blur2");
+    const bookBlur3 = document.getElementById("book_blur3");
+
+    // Show the preloader
+    preloader.style.display = "flex"; // Set the preloader to flex
+    bookBlur.classList.add('blurred');
+    bookBlur2.classList.add('blurred');
+
+    // Set a timeout for the preloader
+    setTimeout(() => {
+        // Hide the preloader and remove the blur effect
+        preloader.classList.add('preloader--invisible');
+        setTimeout(() => {
+            preloader.style.display = "none"; // Completely hide it
+            preloader.classList.remove('preloader--invisible'); // Reset the fade class
+            bookBlur.classList.remove('blurred');
+            bookBlur2.classList.remove('blurred');
+            bookBlur3.classList.remove('blurred');
+        }, 50); // Wait for the fade animation to complete
+    }, 8000); // Show preloader for 8 seconds
+});
+</script>
+{%endblock%}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg!=" crossorigin="anonymous" referrerpolicy="no-referrer" /><meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/style.css">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Hotel</h1>      
+         </div>
+        <div class="admin_name">
+            <h3>Hello : {{name}}</h3>
+        </div>
+        <div class="setting">
+            <h3><i class="fa-solid fa-gear"></i></h3>
+        </div>
+        <div class="night_mode">
+            <h3><i class="fa-solid fa-moon" onclick="toggleMode()"></i></h3>
+        </div>
+
+
+        
+    </header>
+    <div class="side_and_home">
+    <div class="side_bar">
+        <ul>
+            <a href="{{url_for('dashboard')}}"><li><h3>Home </h3><span class="id_logos"><i class="fa-solid fa-house"></i></span></li></a>
+            <a href="{{url_for('notification')}}"><li><h3>Notifications </h3><span class="id_logos"><i class="fa-solid fa-bell"></i></span></li></a>
+            <a href="{{url_for('room')}}"><li><h3>Rooms </h3><span class="id_logos"><i class="fa-solid fa-door-closed"></i></span></li></a>
+            <a href="{{url_for('guest')}}"><li><h3>Guests </h3><span class="id_logos"><i class="fa-solid fa-person"></i></span></li></a>
+            <a href="{{url_for('room_book')}}"><li><h3>Room Booked </h3><span class="id_logos"><i class="fa-solid fa-calendar-days"></i></span></li></a>
+            <a href="{{url_for('event_book')}}"><li><h3>Event Booked </h3><span class="id_logos"><i class="fa-solid fa-calendar-days"></i></span></li></a>
+            <a href="{{url_for('staff')}}"><li><h3>Staf </h3><span class="id_logos"><i class="fa-solid fa-people-group"></i></span></li></a>
+            <a href="{{url_for('admin')}}"><li><h3>Admins </h3><span class="id_logos"><i class="fa-solid fa-lock"></i></span></li></a>
+
+        </ul>
+    </div>
+    <div class="center_content">
+        <div id="message">
+            <h4>
+                {%with messages=get_flashed_messages(with_categories=True)%}
+            {%if messages%}
+                {%for category,message in messages%}
+                    {%if category=="success"%}
+                        <span class="alert_sess"  >{{message}} <button class="message_close" onclick="flash_message()" ><i class="fa-solid fa-x"></i></button> </span>
+                    {%endif%}
+                    {%if category=="error"%}
+                    <br><br>
+                        <span class="alert_errs"  >{{message}} <button class="message_close" onclick="flash_message()"><i class="fa-solid fa-x"></i></button></span>
+                    {%endif%}
+            
+                {%endfor%}
+            {%endif%}
+            {%endwith%}
+            </h4>
+            </div>
+        {%block content%}
+
+        {%endblock%}
+    </div>
+</div>
+
+<script src="../static/script.js">
+    function flash_message(){
+        var x = document.getElementById("message")
+        x.style.display="none"
+      }
+      
+</script>
+</body>
+
+</html>

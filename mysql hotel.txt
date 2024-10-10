@@ -1,0 +1,67 @@
+create database My_Hotel;
+use My_Hotel;
+create table Hotel_Rooms(
+	Room_No int primary key auto_increment not null,
+    Room_Type ENUM('Presidential', 'Deluxe', 'Familly', 'Appartment') NOT NULL,
+    Room_Price int not null,
+    Room_Image longblob not null,
+    Room_Size varchar(20) not null,
+    Room_Availability BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+create table User_Book(
+    User_Id int primary key not null auto_increment,
+    First_Name varchar(20) not null, 
+    Last_Name varchar(20) not null,
+    Gender enum("Male","Female") not null,
+    Phone_Number char(13) not null,
+    Email varchar(60) not null 
+);
+
+create table Event_Book(
+	User_Id int not null,
+	EVENT_ID int primary key auto_increment not null,
+    Event_Name varchar(20) not null,
+    Start_Time time not null,
+    Event_Date date not null unique,
+    Number_Of_People int not null,
+    Room_Required Boolean not null,
+    Catering_Required Boolean not null,
+    FOREIGN KEY (User_Id) REFERENCES User_Book(User_Id)
+    
+);
+
+create table Hotel_Events(
+	Event_Id int not null primary key auto_increment,
+    Event_Name varchar(20) not null,
+    Event_Price_Per_Person varchar(20)
+);
+
+create table Room_Book(
+	Room_No int,
+    User_Id int,
+    Check_In date not null,
+    Check_Out date not null,
+	PRIMARY KEY (Room_No, User_Id),
+    FOREIGN KEY (Room_No) REFERENCES Hotel_Rooms(Room_No),
+    FOREIGN KEY (User_Id) REFERENCES User_Book(User_Id)
+    
+);
+
+
+create table Hotel_Employees(
+	Employee_Id int primary key auto_increment,
+    First_Name varchar(20) not null,
+    Last_Name varchar(20) not null,
+    Phone_Number int not null,
+    Email varchar(50) not null,
+    Roll enum('Manager','Supervisor','Security','Servant','Chef','Waiter') not null,
+    Salary int not null    
+);
+
+create table Hotel_Admin(
+    Employee_Id int not null unique,
+    Username varchar(20) not null,
+    Pass_key varchar(300) not null,
+	foreign key (Employee_Id) references Hotel_Employees(Employee_Id)
+);

@@ -1,0 +1,130 @@
+{% extends 'forall.html' %}
+{%block content%}
+
+
+<body class="home_page_body">
+    <div class="slider">
+      
+        <div class="slider-title">
+        <h1 class="slider_welcome">Welcome <span class="line anim-typewriter">TO Hotel.</span> </h1>
+        <p class="slider_paragra"> ipsum, dolor sit amet consectetur adipisicing elit. Debitis perferendis harum, sed, odio accusamus animi officiis rem vel repudiandae, <span class="welcome-phone-text">facilis delectus est iusto quisquam consectetur? Vero perspiciatis fugiat blanditiis libero.</span></p>
+        <button class="photo_watch" data-modal-target="#modal">View Photos</button>
+        
+    </div>
+    <div class="list">
+   {% for room in data %}
+        <div class="item">
+            <img src="{{ room['Room_Image'] }}" alt="{{ room['room_type'] }}">
+        </div>
+    {% endfor %}
+  </div>
+        <div class="buttons">
+            <button id="prev">&#10096;</button>
+            <button id="next">&#10097;</button>
+        </div>
+        <ul class="dots">
+          {% for i in range(0,length)%}
+            <li class="active"></li>
+            {%endfor%}
+        </ul>
+    </div><br>
+    <div class="welcome_h1"><h1>Welcome.</h1></div>
+    <div class="welcome_text_img ">
+        <div class="welcome_img reveal">
+            
+        </div>
+        <div class="welcome_text reveals">
+           
+            <p><h1 style="text-align: center;">Welcome.</h1>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non porro est exercitationem assumenda? Quos distinctio officiis obcaecati, sunt voluptas ex <span class="welcome-text-phone"> voluptatum error accusamus architecto temporibus pariatur voluptatibus, iste aperiam cum beatae voluptates culpa labore non rem placeat tempore nostrum laudantium illo sit! Sed quaerat quam aut magni ab ea a voluptatibus qui cum quo, libero in harum sapiente commodi nesciunt ullam quas excepturi nemo amet necessitatibus facilis? Maxime ducimus debitis harum corrupti sunt optio qui quo laboriosam mollitia rem amet non animi fuga esse ex laudantium temporibus unde, sint omnis, incidunt error. Totam, similique nisi culpa eos repellendus consequuntur facilis sit ipsa nemo minima vero animi adipisci laboriosam odit voluptatum labore, nam dolore voluptatibus deleniti laborum. Vero rem repellat odit maiores optio non harum cum esse incidunt dicta repudiandae ut, omnis laborum autem dolore soluta, iure quibusdam tempore voluptates recusandae vitae </span> .</p></div>
+    </div><br class="phone-break">
+    <br class="phone-break">
+    <br class="phone-break">
+    <hr style="width: 60%;margin-left: 20%;" class="phone-break">
+    <div class="About_h1"><h1>About Us.</h1></div>
+    <div class="About_text_img ">
+        <div class="About_text reveal">
+            <p><h1 style="text-align: center;">About Us.</h1>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non porro est exercitationem assumenda? Quos distinctio officiis obcaecati, sunt voluptas ex voluptatum error accusamus architecto temporibus pariatur <span class="welcome-text-phone">voluptatibus, iste aperiam cum beatae voluptates culpa labore non rem placeat tempore nostrum laudantium illo sit! Sed quaerat quam aut magni ab ea a voluptatibus qui cum quo, libero in harum sapiente commodi nesciunt ullam quas excepturi nemo amet necessitatibus facilis? Maxime ducimus debitis harum corrupti sunt optio qui quo laboriosam mollitia rem amet non animi fuga esse ex laudantium temporibus unde, sint omnis, incidunt error. Totam, similique nisi culpa eos repellendus consequuntur facilis sit ipsa nemo minima vero animi adipisci laboriosam odit voluptatum labore, nam dolore voluptatibus deleniti laborum. Vero rem repellat odit maiores optio non harum cum esse incidunt dicta repudiandae ut, omnis laborum autem dolore soluta, iure quibusdam tempore voluptates recusandae vitae  .</span></p>
+        </div>
+        <div class="About_img reveals"> 
+        </div>
+    </div><br>
+    <br>
+    <br>
+    
+    <hr style="width: 60%;margin-left: 20%;">
+    <br><h1 class="reachus_text_h1">𝕽𝖊𝖆𝖈𝖍 𝖚𝖘</h1>
+<div class="reach_map_logos reveals">
+
+  <div class="map ">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.5476736802143!2d38.766431299999994!3d9.01370095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85bd1af9433f%3A0xabfe82e3faa30157!2sKazanchis%2C%20Addis%20Ababa!5e0!3m2!1sen!2set!4v1699978622964!5m2!1sen!2set" width="100%" height="310px" style="box-shadow: var(--shadow);" allowfullscreen="" loading="lazy" id="map" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+  <div class="connections ">
+  <div class="call">
+    <h2>--𝔠𝔞𝔩𝔩 𝔲𝔰--</h2>
+    <h4><i class="fa-solid fa-phone"></i>+251945654612</h4>
+    <h4><i class="fa-solid fa-phone"></i>+251949879652</h4>
+</div>
+    <div class="links">
+      <h2>--𝔣𝔬𝔩𝔩𝔬𝔴 𝔲𝔰--</h2>
+      <h4><i class="fa-brands fa-facebook"></i> 𝔉𝔞𝔠𝔢𝔟𝔬𝔬𝔨</h4>
+      <h4><i class="fa-brands fa-twitter"></i> 𝔱𝔴𝔦𝔱𝔱𝔢𝔯</h4>
+      <h4><i class="fa-brands fa-instagram"></i> 𝔦𝔫𝔰𝔱𝔞𝔤𝔯𝔞𝔪</h4>
+    </div>
+
+  </div>
+</div>
+</body><br>
+<br>
+<br><br><br><br><br><br><br><br><br>
+
+
+
+    <!-- show image-->
+<div class="modal" id="modal">
+  <div class="modal-header">
+    <div class="title">Photos.</div>
+    <button data-close-button class="close-button" style="height: 60px;width:10%">&times;</button>
+  </div>
+  <div class="modal-body">
+   
+    <div id="slideContainer">
+        <button id='prevs' class="sliderBtn">&lt;
+            <button id="nexts" class="sliderBtn">&gt;</button>
+        </button>
+        
+        <div class="slide show">
+          <img src="../static/camera.jpg" alt="slide" class="img" />
+        </div>
+        {% for room in data %}
+        <div class="slide">
+          <img src="{{ room['Room_Image'] }}" alt="slide" class="img" />
+        </div>
+        
+        {%endfor%}
+      </div>
+
+  </div>
+</div>
+<!-- show image end-->
+<div id="overlay"></div>
+<script src="../static/script.js"></script>
+</html>
+<script>
+    window.addEventListener('scroll',reveal);
+    function reveal(){
+    var reveals = document.querySelectorAll('.reveal')
+    for (var i=0; i<reveals.length; i++){
+    var windowheight = window.innerHeight;
+    var revealtop = reveals[i].getBoundingClientRect().top;
+    var revealpoint = 150;
+    if(revealtop<windowheight - revealpoint){
+      reveals[i].classList.add('active');
+    }
+    else{
+      reveals[i].classList.remove('active');
+    }
+    }
+    }
+
+    </script>
+    {%endblock%}

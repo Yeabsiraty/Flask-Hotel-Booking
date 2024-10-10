@@ -1,0 +1,522 @@
+
+:root{
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --header-color: rgb(255, 229, 229);
+    --searched2:  rgb(255, 200, 200);
+    --box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    --border: rgb(255, 255, 255);
+    --some_texts_orange: rgb(255, 113, 224);
+    --my_book: rgb(255, 216, 216);
+    --book_button_hover: rgb(0, 0, 0);
+    --button_background_hover: aqua; 
+    --logo-width: 300px;
+    --spin-speed: 0.6s;
+    --searched: rgb(65, 156, 254);
+    --about_book: red;
+    --loader: rgb(29, 30, 31);
+    --text_color2: rgb(158, 152, 152);
+}
+body.dark-mode{
+    --text_color2: rgb(125, 125, 125);
+    --about_book: rgb(23, 243, 243);
+    --background-color: rgba(0, 0, 0);
+    --text-color: #ffffff;
+    --header-color: rgb(14, 15, 15);
+    --box-shadow: 4px 4px 10px rgb(255, 255, 255);
+    --border: rgb(37, 37, 37);
+    --some_texts_orange: rgb(255, 255, 255); 
+    --my_book: rgba(0, 0, 0, 0.7);
+    --book_button_hover: rgb(255, 255, 255);
+    --button_background_hover: black;
+    --searched: rgb(17, 17, 17);
+    --searched2: rgb(49, 48, 46);
+    --loader: rgb(255, 255, 255);
+    }
+a{
+    color: var(--text-color);
+    text-decoration: none;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+.login_background{
+    background-color: var(--header-color);
+    width: 100%;
+}
+.login_form{
+    background-color: var(--searched2);
+    height: 300px;
+    margin: 5% auto;
+    width: 30%;
+    text-align: center;
+    padding-top: 4%;
+}
+.login_form form input{
+    border-radius: 20px;
+    border: 1px solid;
+    height: 20px;
+    padding-left: 2%;
+    width: 50%;
+}
+.form_label_macro{
+    font-size: 24px;
+    font-weight: bold;
+}
+#login_btn{
+    height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: red;
+    color: white;
+}
+#login_btn:hover{
+    background-color: rgb(141, 22, 22);
+    cursor: pointer;
+}
+header{
+    display: flex;
+    width: 100%;
+    background-color: var(--header-color);
+}
+.logo{
+   width: 60%;
+   
+}
+.logo h1{
+    font-size: 20px;
+    padding: 0.5% 0 0 5%;
+}
+.admin_name{
+    width: 30%;
+}
+
+#message {
+    margin: 25px auto;  
+    width: 100%;         
+    text-align: center;
+    position: fixed; 
+    z-index: 10000000;
+}
+.alert_sess {
+    margin-left: -18%;
+    background-color: #61c779; 
+    color: #000000; 
+    border: 1px solid #003a0e; 
+    width: 90%;
+    padding: 1%;
+    height: 30px;
+    border-radius: 20px;
+}
+
+.alert_errs {
+    margin-left: -18%;
+    background-color: #d45761; 
+    color: #ffdcdc;
+    border: 1px solid #ff021b; 
+    width: 90%;
+    padding: 1%;
+    height: 30px;
+    border-radius: 20px;
+}
+.message_close{
+    font-size: 15px;
+    background-color: rgb(255, 238, 0);
+    border: none;
+    border-radius: 4px;
+}
+.message_close .fa-x {
+    background-color: rgb(255, 238, 0);
+    color: white;
+    text-align: end;
+    
+}
+.message_close:hover{
+    cursor: pointer;
+}
+
+.setting{
+    width: 5%;
+}
+.side_and_home{
+    display: flex;
+    width: 100%;
+    margin-top: 0.5%;
+    gap: 0.5%;
+}
+.side_bar{
+    width: 20%;
+    background-color: var(--searched2);
+    margin-left: 0.8%;
+}
+.center_content{
+    width: 77.5%;
+    background-color: var(--searched2);
+}
+.side_bar ul{
+    padding-left: 0;
+}
+.side_bar ul li{
+    padding-left:5%;
+    list-style: none;
+    margin-top: 5%;
+    font-size: 13px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    padding-top: 2%;
+    height: 35px;
+    background-color: var(--header-color);
+    width: 93%;
+
+}
+.side_bar ul li:hover{
+    color: red;
+    border: 1px solid var(--text-color);
+    cursor: pointer;
+}
+.side_bar ul li{
+    display: flex;
+}
+.side_bar ul li h3{
+    margin-top: auto;
+    width: 85%;
+}
+.side_bar span .fa_soli{
+  align-items: end;
+  text-align: end;
+}
+.hotel_review{
+    display: flex;
+    color: var(--text-color);
+}
+.tot_boxes h1{
+    color: white;
+}
+.boxes{
+    width: 25%;
+}
+.tot_boxes{
+    width: 80%;
+    height: 50%;
+    border-radius: 20px;
+    padding: 10px 0 0 5%;
+    margin: auto;
+}
+.about_box_text{
+    width: 80%;
+    font-size: 19px;
+    margin-left: 15%;
+}
+.side_bar i{
+    font-size: 15px;
+}
+.tot{
+    background-image: linear-gradient(to right top, #a80000, #c2372c, #d95b53, #ee7e7a, #ffa0a0);
+}
+.r_tot{
+    background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+}
+.e_tot{
+    background-image: linear-gradient(to right top, #ff0000, #d87d00, #a6af00, #6cd15f, #12ebbb);
+}
+.f_tot{
+    background-image: linear-gradient(to right top, #ff00f4, #ff00af, #ff0072, #ff3e40, #eb6612);
+}
+.g_tot{
+    background-image: linear-gradient(to right top, #4200ff, #7d5aff, #aa92ff, #d5c9ff, #ffffff);
+}
+
+.todays_checkout{
+    text-align: center;
+    margin-top: 3%;
+}
+.today{
+    margin-top: 3%;
+    color: var(--loader);
+    background-color: var(--my_book);
+    padding-top: 1%;
+}
+.not_table {
+    text-align: center;
+    width: 100%;
+    
+}
+
+.not_table table {
+    width: 90%;
+    font-size: 20px;
+    margin: 2% auto; 
+    background-color: var(--my_book);
+    border-collapse: collapse;
+}
+.today th,tr,td{
+    border: 2px solid var(--border);
+}
+.today th{
+    color: var(--some_texts_orange);
+}
+.todays_checkout{
+    font-size: 30px;
+    margin: auto;
+    color: var(--text-color2);
+}
+
+
+.room_table{
+    width: 95%;
+    margin: 2% auto;
+    text-align: center;
+}
+.table{
+    width: 100%;
+    background-color: var(--my_book);
+    border-collapse: collapse;
+}
+.table_image img{
+    width: 100%;
+}
+.table td{
+    font: 20px;
+    font-weight: bold;
+}
+.room_text{
+    text-align: center;
+    margin: auto;
+    color: var(--text_color2);
+}
+.table td .button{
+    display: flex;
+    gap: 5%;
+    justify-content: center;
+}
+.button button{
+    border: 1px solid rgb(24, 175, 19);
+    height: 20px;
+    display: flex;
+}
+.button button:hover{
+    cursor: pointer;
+    transform: translate(1px, -2px);
+}
+.button .edit,.delete{
+    width: 40%;
+}
+.button .edit button{
+    background-color: yellow;
+    width: 100%;
+    border-radius: 20px;
+    font-weight: bold;
+}
+.button .delete button{
+    color: white;
+    background-color: red;
+    font-weight: bold;
+    width: 100%;
+    border-radius: 20px;
+}
+.edit_square{
+    display: none;
+    position: fixed; 
+    top: 20%; 
+    left: 50%;
+    transform: translate(-30%, 10%);
+    background-color: var(--searched2); 
+    height: 330px; 
+    width: 60%; 
+    border: 1px solid black;
+    z-index: 100; 
+    justify-content: center;
+    align-items: center; 
+    border-radius: 20px;
+}
+.delete_square{
+    display: none;
+    position: fixed; 
+    top: 20%; 
+    left: 50%;
+    transform: translate(-30%, 20%);
+    background-color: var(--searched2); 
+    height: 300px; 
+    width: 20%; 
+    border: 1px solid black;
+    z-index: 100; 
+    justify-content: center;
+    align-items: center; 
+    border-radius: 20px;
+}
+.center_square {
+    display: none;
+    position: fixed; 
+    top: 20%; 
+    left: 50%;
+    transform: translate(-30%, 20%);
+    background-color: var(--searched); 
+    height: 300px; 
+    width: 30%; 
+    z-index: 100; 
+    justify-content: center;
+    align-items: center; 
+}
+.close_button{
+    text-align: end;
+    font-size: 17px;
+    padding-right: 2%;
+    font-weight: bold;
+}
+.close_button:hover{
+    cursor: pointer;
+}
+.delete_confirm{
+    font-size: 25px;
+    text-align: center;
+}
+.delete_square form{
+    text-align: center;
+}
+.delete_square form input,select{
+    border: 1px solid;
+    border-radius: 20px;
+    height: 20px;
+    padding-left: 2%;
+}
+.delete_square form .confirm_btn{
+    width: 30%;
+    background-color: rgb(255, 0, 43);
+    margin-top: 5%;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    height: 28px;
+}
+.confirm_btn:hover{
+    cursor: pointer;
+}
+.edit_btn{
+    width: 50%;
+    background-color: yellow;
+    margin-top: 5%;
+    border-radius: 20px;
+    border: 1px solid black;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    height: 28px;
+}
+.edit_btn:hover{
+    cursor: pointer;
+    background-color: rgb(0, 174, 255);
+    color: black;
+}
+.add_btns{
+    width: 50%;
+    background-color: green;
+    margin-top: 5%;
+    border-radius: 20px;
+    border: 1px solid black;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    height: 28px;
+}
+.add_btns:hover{
+    cursor: pointer;
+    background-color: rgb(0, 174, 255);
+    color: black;
+}
+.edit_square form{
+    display: flex;
+    margin-left: 5%;
+}
+.edit_square .edit_labels,.edit_values,.submit_edit_btn{
+    width: 30%;
+}
+.submit_edit_btn{
+    margin: 5% auto;
+}
+.edit_square form label{
+    font-weight: bold;
+}
+.edit_square form input{
+    border: none;
+    padding-left: 2%;
+    border-radius: 20px;
+    height: 20px;
+}
+.edit_square form .upload{
+    height: 20px;
+}
+.room_buttons{
+    width: 100%;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+}
+.room_buttons button{
+    margin: 10px auto; 
+}
+.add_btn{
+    background-color: green;
+    color: white;
+    width: 10%;
+    height: 25px;
+    border-radius: 20px;
+    border: none;
+}
+.add_btn:hover{
+    background-color: aqua;
+    color: black;
+    cursor: pointer;
+}
+.refreshe_button{
+    background-color: var(--some_texts_orange);
+    border: none;
+    width: 100%;
+    height: 35px;
+    border-radius: 20px;
+}
+.refreshe_button:hover{
+    background-color: var(--button_background_hover);
+    cursor: pointer;
+    color: white;
+}
+.button_guest{
+   display: flex;
+   justify-content: center;
+   gap: 4%;
+}
+.button .edit button:hover{
+    background-color: rgb(189, 189, 0);
+}
+.button .delete button:hover{
+    background-color: rgb(163, 4, 4);
+}
+.refreshe_button{
+    font-weight: bold;
+}
+.event_booked_table{
+    margin-left: 1%;
+    width: 98%;
+}
+.event_booked_table table th{
+    font-size: 15px;
+}
+.event_booked_table .button .delete{
+    width: 50%;
+}
+.admin_add_btn{
+    width: 30%;
+}
+.search{
+    display: flex;
+    justify-content: end;
+    margin-right: 5%;
+}
+.search input{
+    padding-left: 3%;
+    border-radius: 20px;
+    border: 1px solid;
+    height: 20px;
+}

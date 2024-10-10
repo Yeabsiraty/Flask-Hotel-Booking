@@ -1,0 +1,214 @@
+{% extends 'forall.html' %}
+{% block content %}
+<h1 class="room_text">Booked Room</h1><br>
+{%if database3%}
+<div class="search">
+    <input type="text" id="search_input" placeholder="room no search" oninput="liveSearch()">
+</div>
+<div class="delete_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Admin Confirmation</h1>
+    <h3 style="text-align: center;">Room Number: <span id="delete_confirm_check" style="color: red;"></span></h3>
+    <form action="{{url_for('delete_room_book')}}" method="post">
+         <input type="hidden" name="room_no" value="" id="room_no_input_delete">
+        <input type="password" name="password" placeholder="Password" required><br><br>
+        <input type="submit" value="Delete" class="confirm_btn">
+    </form>
+</div>
+<div class="edit_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Edit Room Number: <span style="color: red;" id="room_no_input"></span></h1>
+    <form action="{{url_for('edit_room_book')}}" method="post" >
+        <div class="edit_values">
+            <input type="hidden" name="room_no" value="" id="room_no_input2">
+            <label for="">Check In</label><br><br>
+            <input type="date" name="check_in" value="" id="check_in_input"><br><br>
+        </div>
+        <div class="edit_labels">
+            <label for="">Check Out</label><br><br>
+            <input type="date" name="check_out" value="" id="check_out_input"><br><br>
+        </div>
+        
+        <div class="submit_edit_btn">
+            <input type="submit" value="Edit" class="edit_btn">
+        </div>
+    </form>
+</div>
+<div class="room_table room_booked_table" id="room_table">
+    <table border="1px" class="room_table table">
+        <thead>
+            <tr>
+                <th>Room No</th>
+                <th>Customer Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Stay</th>
+                <th>Edit Room</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in database3 %}
+            <tr style="font-size: 14px;">
+                <td>{{data["Room_No"]}}</td>
+                <td>{{data["User_Id"]}}</td>
+                <td>{{data["First_Name"]}}</td>
+                <td>{{data["Last_Name"]}}</td>
+                <td>{{data["Check_In"]}}</td>
+                <td>{{data["Check_Out"]}}</td>
+                <td> {% if data["Check_In"] and data["Check_Out"] %}
+                    {% set delta = data["Check_Out"] - data["Check_In"] %}
+                    {{ delta.days }} days
+                {% else %}
+                    No Booking Available
+                {% endif %}</td>
+                <td>
+                    <div class="button">
+                        <div class="edit">
+                            <button onclick="toggle_edit('{{ data['Room_No'] }}','{{ data['Check_In'] }}','{{ data['Check_Out'] }}')">Edit</button>
+                        </div>
+                        <div class="delete">
+                            <button onclick="toggle_delete('{{ data['Room_No'] }}')">Delete</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table><br>
+    {%else%}
+    
+<h1 style="text-align: center;color: var(--text_color2);margin-top: 10%;">No Room Booked !</h1>
+{%endif%}
+<div class="room_buttons">
+    <a href="{{url_for('room_book')}}"><button class="refreshe_button">Refreshe</button></a>
+</div>
+</div>
+
+<script>
+    function toggle_edit(roomno,checkin,checkout) {
+        const editSquare = document.querySelector('.edit_square');
+        const room1 = document.getElementById("room_no_input2");
+        const room2 = document.getElementById("room_no_input");
+        const check_in = document.getElementById("check_in_input")
+        const check_out = document.getElementById("check_out_input")
+        room1.value = roomno;
+        room2.innerHTML = roomno;
+        check_in.value = checkin;
+        check_out.value = checkout;
+
+        editSquare.style.display = (editSquare.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function toggle_delete(roomno) {
+        const deleteSquare = document.querySelector('.delete_square');
+        const dc = document.getElementById("delete_confirm_check")
+        const deletes = document.getElementById("room_no_input_delete")
+
+        deletes.value = roomno;
+        dc.innerHTML = roomno;
+        deleteSquare.style.display = (deleteSquare.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function toggleclose(){
+        const editSquare = document.querySelector('.edit_square');
+        editSquare.style.display = 'none';
+        const deleteSquare = document.querySelector('.delete_square');
+        deleteSquare.style.display = 'none';
+    }
+
+
+          
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1); 
+tomorrow.setHours(0, 0, 0, 0); 
+
+const checkInInput = document.getElementById('check_in_input');
+checkInInput.setAttribute('min', tomorrow.toISOString().split('T')[0]); 
+
+
+const checkOutInput = document.getElementById('check_out_input');
+
+checkInInput.addEventener('change', function() {
+    const checkInDate = new Date(checkInInput.value);
+    checkInDate.setDate(checkInDate.getDate() + 1); 
+    checkOutInput.setAttribute('min', checkInDate.toISOString().split('T')[0]); 
+});
+
+
+function liveSearch() {
+    const searchInput = document.getElementById('search_input').value;
+    fetch('/search_room_book', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `search=${encodeURIComponent(searchInput)}`
+    })
+    .then(response => response.json())
+    .then(data => updateRoomTable(data));
+}
+
+function updateRoomTable(rooms) {
+    const roomTable = document.getElementById('room_table');
+    roomTable.innerHTML = `
+        <table border="1px" class="room_table table">
+            <thead>
+            <tr>
+                <th>Room No</th>
+                <th>Customer Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Stay</th>
+                <th>Edit Room</th>
+            </tr>
+        </thead>
+        <tbody>
+                ${rooms.map(data => `
+                    <tr style="font-size: 14px;">
+                <td>${data["Room_No"]}</td>
+                <td>${data["User_Id"]}</td>
+                <td>${data["First_Name"]}</td>
+                <td>${data["Last_Name"]}</td>
+                <td>${data["Check_In"]}</td>
+                <td>${data["Check_Out"]}</td>
+                <td> 
+                       ${(() => {
+                    if (data["Check_In"] && data["Check_Out"]) {
+                        const checkInDate = new Date(data["Check_In"]);
+                        const checkOutDate = new Date(data["Check_Out"]);
+                        const delta = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)); // days
+                        return `${delta} days`;
+                    } else {
+                        return 'N/A';
+                    }
+                })()}
+                <td>
+                    <div class="button">
+                        <div class="edit">
+                            <button onclick="toggle_edit('${ data['Room_No'] }','${ data['Check_In'] }','${ data['Check_Out'] }')">Edit</button>
+                        </div>
+                        <div class="delete">
+                            <button onclick="toggle_delete('${ data['Room_No'] }')">Delete</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            `).join('')}
+        </tbody>
+    </table><br>
+<div class="room_buttons">
+    <a href="{{url_for('room_book')}}"><button class="refreshe_button">Refreshe</button></a>
+</div>
+</div>
+    `;
+}
+
+
+
+</script>
+
+{% endblock %}

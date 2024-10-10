@@ -1,0 +1,42 @@
+{%extends 'forall.html'%}
+{%block content%}
+
+<link rel="stylesheet" href="../static/style.css">
+<body><br><br><br>
+    <div class="hotel_review ">
+        <div class="total boxes">
+            <div class="tot tot_boxes">
+                <h1>{{total}}</h1>
+            </div>
+            <h1 class="about_box_text">Total Book</h1>
+        </div>
+        <div class="room_booked boxes">
+            <div class="r_tot tot_boxes">
+                <h1>{{room_book}}</h1>
+            </div>
+            <h1 class="about_box_text">Rooms</h1>
+        </div>
+        <div class="event_booked boxes">
+            <div class="e_tot tot_boxes">
+                <h1>{{event}}</h1>
+            </div>
+            <h1 class="about_box_text">Event</h1>
+        </div>
+        <div class="total_free_room boxes">
+            <div class="f_tot tot_boxes">
+                <h1>{{room_free}}</h1> 
+                       </div>
+            <h1 class="about_box_text">Free Rooms</h1>
+        </div>
+        <div class="total_free_room boxes">
+            <div class="g_tot tot_boxes">
+                <h1>{{in_hotel}}</h1> 
+                       </div>
+            <h1 class="about_box_text">Guests In</h1>
+
+    </div>
+    </div><br><br><br>
+    <h1 style="text-align: center;color:var(--text_color2);font-size: 50px;">Dailly Review</h1>
+</body>
+
+{%endblock%}

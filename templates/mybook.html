@@ -1,0 +1,158 @@
+{%extends 'forall.html'%}
+{%block content%}
+<body>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap">
+  
+  
+   
+  
+   
+  
+    <div class="preloader" id="preloader">
+      <div class="preloader__logo">
+        <div class="preloader__circle"></div>
+      </div>
+    </div>
+  
+  <!--load circle done-->
+    <div class="event_form">
+    <form action="" method="post" id="book_blur"><br>
+
+        
+
+
+        <h1 class="your_event_type">Your Event : <span style="color: orange;font-size: 35px;">{{event_type}}</span> </h1>
+        <div class="event_form_l_r">
+            <div class="left_event_book">
+                <label for="f_name">First Name</label><br><br>
+                <input type="text" name="f_name" required><br><br>
+                <label for="gender">Gender</label><br><br>
+                <select name="gender" id="" class="selects">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select><br><br>
+                <label for="email">Email</label><br><br>
+                <input type="text" name="email" required><br><br>
+                <label for="event_date">Event Date</label><br><br>
+                <input class="input" type="date" name="event_date" id="check_in"  required><br><br>
+                <label for="room">Room Required?</label><br><br>
+                <select name="room" id="room-select" class="selects">
+                    <option value="">Select...</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+
+            </div>
+            
+            <div class="right_event_book">
+                <label for="l_name">Last Name</label><br><br>
+                <input type="text" name="l_name" required><br><br>
+                <label for="phone_no">Phone Number</label><br><br>
+                <input type="text" name="phone_no" required><br><br>
+                <label for="p_no">Number of People</label><br><br>
+                <input type="text" name="p_no" required><br><br>
+                <label for="start_time">Start Time</label><br><br>
+                <input class="input" type="time" name="start_time" id="check_out"  required><br><br>
+                <label for="catering">Catering Required ?</label><br><br>
+                <select name="catering" id="" class="selects">
+                    <option value="">Yes</option>
+                    <option value="">No</option>
+                </select>
+                
+                
+            </div>
+
+        </div><br><br>
+        <div id="hidden" class="hidden">
+            <div class="top">
+            <label for="room_type">Room Type </label>
+            <select name="room_type" id="" style="width: 50%;">
+                <option value="Presidantial">Presidantial</option>
+                <option value="Appartment">Appartment</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Familly">Familly</option>
+            </select><br>
+        </div>
+        <div class="bottom">
+        
+            <label for="number_room">Number Of Room </label>
+            <select name="number_room" id="" style="width: 50%;">
+                {%for i in range(1,11)%}
+                <option value="{{i}}">{{i}}</option>
+                {%endfor%}
+            </select><br><br>
+        </div>
+            <br><br>
+        </div>
+        
+        <button class="book_button" id="searchButton"> Book_Event </button>
+        <br><br><br><br>
+    </form>
+</div>
+</body>
+
+<script>
+document.getElementById('room-select').addEventListener('change', function() {
+    var hiddenDiv = document.getElementById('hidden');
+    if (this.value === "yes") {
+        hiddenDiv.style.display = 'block'; // Show the div
+    } else {
+        hiddenDiv.style.display = 'none'; // Hide the div
+    }
+});
+
+
+
+
+  // Set the minimum check-in date to tomorrow
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1); // Set to tomorrow
+tomorrow.setHours(0, 0, 0, 0); // Clear time for comparison
+
+const checkInInput = document.getElementById('check_in');
+checkInInput.setAttribute('min', tomorrow.toISOString().split('T')[0]); // Sets tomorrow's date as the min for check-in
+
+// Set the min attribute for check-out date based on the check-in date selection
+const checkOutInput = document.getElementById('check_out');
+
+checkInInput.addEventListener('change', function() {
+    const checkInDate = new Date(checkInInput.value);
+    checkInDate.setDate(checkInDate.getDate() + 1); // Check-out must be at least one day after check-in
+    checkOutInput.setAttribute('min', checkInDate.toISOString().split('T')[0]); // Set min check-out date
+});
+
+document.getElementById('searchButton').addEventListener('click', function () {
+    const preloader = document.getElementById('preloader');
+    const bookBlur = document.getElementById("book_blur");
+    const bookBlur2 = document.getElementById("book_blur2");
+    const bookBlur3 = document.getElementById("book_blur3");
+
+    // Show the preloader
+    preloader.style.display = "flex"; // Set the preloader to flex
+    bookBlur.classList.add('blurred');
+    bookBlur2.classList.add('blurred');
+
+    // Set a timeout for the preloader
+    setTimeout(() => {
+        // Hide the preloader and remove the blur effect
+        preloader.classList.add('preloader--invisible');
+        setTimeout(() => {
+            preloader.style.display = "none"; // Completely hide it
+            preloader.classList.remove('preloader--invisible'); // Reset the fade class
+            bookBlur.classList.remove('blurred');
+            bookBlur2.classList.remove('blurred');
+            bookBlur3.classList.remove('blurred');
+        }, 50); // Wait for the fade animation to complete
+    }, 8000); // Show preloader for 8 seconds
+});
+
+
+
+
+</script>
+
+
+{%endblock%}

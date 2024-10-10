@@ -1,0 +1,75 @@
+        <!-- show image-->
+        <div id="popupModal" class="popup-modal popupModal">
+            <div class="popup-content">
+                <span class="close-popup">×</span>
+                
+                
+            </div>
+        </div>
+        
+          <!-- show image end-->
+                   
+<button class="room_detail room_detail_show" onclick="room_detail_show()">Room Detail</button>
+
+
+<script>
+    
+const popupModal = document.querySelector('.popup-modal');
+    const closePopup = document.querySelector(".close-popup");
+function room_detail_show() {
+        // Show the empty popup modal
+        popupModal.style.display = "block";
+
+    // Close the popup when the (X) is clicked
+    closePopup.onclick = function() {
+        popupModal.style.display = "none";
+    }
+
+    // Close the popup if the user clicks anywhere outside of the popup content
+    window.onclick = function(event) {
+        if (event.target == popupModal) {
+            popupModal.style.display = "none";
+        }
+    
+    }
+    
+};
+</script>
+
+
+<style>
+    .popup-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+}
+
+
+.close-popup {
+    color: var(--text-color);
+    float: right;
+    font-size: 28px;
+    margin-right: 2%;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-popup:hover,
+.close-popup:focus {
+    color: rgb(255, 0, 0);
+    text-decoration: none;
+    cursor: pointer;
+}
+.popup-content {
+    background-color: red;
+    width: 45%; 
+    margin: 5% 0 0 30%; 
+    height: 400px;
+    border: 1px solid #888;/* Could be more or less, depending on screen size */
+}
+</style>

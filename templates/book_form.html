@@ -1,0 +1,107 @@
+{%extends "forall.html"%}
+{%block content%}
+
+<body>
+    <!--load circle-->
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap">
+
+
+ 
+
+ 
+
+  <div class="preloader" id="preloader">
+    <div class="preloader__logo">
+      <div class="preloader__circle"></div>
+    </div>
+  </div>
+
+    <!--load circle done-->
+
+
+
+    <div class="booking_form" id="book_blur">
+        <div class="form_fill">
+    <form action="" method="post" novalidate>
+    {{form.csrf_token}}
+    {{ form.hidden_tag() }}
+    {%import "macro.html" as mac%}
+    <div class="form_all">
+    <div class="left_form">
+    <span class="s_labels"> {{mac.render_field(form.f_name)}}</span>
+    <span class="s_labels"> {{mac.render_field(form.l_name)}}</span>
+    <span class="s_labels"> {{mac.render_field(form.gender)}} </span>
+</div>
+<div class="right_form">
+    <span class="s_labels"> {{mac.render_field(form.p_no1)}} </span>
+    <span class="s_labels"> {{mac.render_field(form.email)}}</span>
+</div>
+</div>
+    <input type="submit" class="book_button " id="searchButton" value = "Book" >
+<br><br></form>
+</div>
+<div class="total_calculate">
+    <h1 style="text-align: center;">Your Room Detail</h1>
+    <hr>
+    {%for data in data%}
+    <div class="total_c">
+    <div class="left_calculate">
+        {% if data["Room_Image"] %}
+            <img src="{{ data['Room_Image'] }}" alt="Room Image" style="border-radius: 20px;">
+            {% else %}
+            <p>No image available</p>
+        {% endif %}
+        <h4>Price:  <span style="color: orange;">${{data["Room_Price"]}}</span></h4><hr>
+        <h4>--pernight--</h4><hr>
+        <h4>Total stay: <span style="color: orange;">{{cookie_data.get("length_of_stay")}} days</span></h4><hr>
+        <h4>Room No: <span style="color: orange;">{{data["Room_No"]}} </span></h4><hr>
+    </div>
+    <div class="right_calculate">
+        <h4>Room Type: <span style="color: orange;"> {{data["Room_Type"]}}</span></h4><hr>
+        <h4>Adults: <span style="color: orange;"> {{cookie_data.get("num_adults")}}</span></h4><hr>
+        <h4>Kids: <span style="color: orange;"> {{cookie_data.get('num_kids')}}</span></h4><hr>
+        <h4>Check_In: <span style="color: orange;"> {{cookie_data.get("check_in")}}</span></h4><hr>
+        <h4>Check_Out: <span style="color: orange;"> {{cookie_data.get("check_out")}}</span></h4><hr>
+        <h1 style="text-align: end;margin-right: 4%;" class="total_phoje">Total: <span style="color: orange;font-size: 30px;">${{(cookie_data.get('num_kids')*2 )+(cookie_data.get("num_adults"))+(data["Room_Price"]* cookie_data.get("length_of_stay"))}} </span></h1>
+    </div>
+</div>
+
+{%endfor%}
+</div>
+</div>
+</body><br><br><br>
+
+
+
+<script>
+    
+    document.getElementById('searchButton').addEventListener('click', function () {
+    const preloader = document.getElementById('preloader');
+    const bookBlur = document.getElementById("book_blur")
+    
+    // Show the preloader
+    preloader.style.display = "flex";      // Set the preloader to flex
+    bookBlur.classList.add('blurred')
+  
+    // Set a timeout for the preloader
+    setTimeout(() => {
+        // Hide the preloader and remove the blur effect
+        preloader.classList.add('preloader--invisible');
+        setTimeout(() => {
+            preloader.style.display = "none"; // Completely hide it
+            preloader.classList.remove('preloader--invisible'); // Reset the fade class
+            bookBlur.classList.remove('blurred');
+            bookBlur2.classList.remove('blurred');
+            bookBlur3.classList.remove('blurred');
+        }, 50); // Wait for the fade animation to complete
+    }, 8000); // Show preloader for 5 seconds
+  });
+  
+</script>
+
+
+{%endblock%}

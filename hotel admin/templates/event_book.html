@@ -1,0 +1,261 @@
+{% extends 'forall.html' %}
+{% block content %}
+<h1 class="room_text">Booked Event</h1><br>
+{%if  database5%}
+<div class="search">
+    <input type="text" id="search_input" placeholder="room no search" oninput="liveSearch()">
+</div>
+<div class="delete_square" style="display:none;">
+    <h1 class="close_button" onclick="toggle_close()">✖</h1>
+    <h1 class="delete_confirm">Admin Confirmation</h1>
+    <h3 style="text-align: center;" >Event Id: <span style="color: red;" id="event_id_input"></span></h3>
+    <form action="{{url_for('delete_book_event')}}" method="post">
+        <input type="hidden" name="event_id" value="" id="event_id_input_delete">
+        <input type="password" name="password" placeholder="Password" required><br><br>
+        <input type="submit" value="Delete" class="confirm_btn">
+    </form>
+</div>
+<div class="edit_square" id="edit_square" style="display:none;height: 400px;transform: translate(-30%, -10%);">
+    <h1 class="close_button" onclick="toggle_close()">✖</h1>
+    <h1 class="delete_confirm">Edit Event: <span id="event_number" style="color: red;"></span></h1>
+    <form action="{{url_for('edit_book_event')}}" method="post">
+        <div class="edit_values">
+            <input type="hidden" name="event_id" value="" id="event_id_input_edit">
+            <label for="">Event type</label><br><br>
+            <select name="event_type" id="event_type_input_select">
+                <option value=""></option>
+                <option value="Weeding">Weeding</option>
+                <option value="Meeting">Meeting</option>
+            </select><br><br>
+            <label for="">Number of People</label><br><br>
+            <input type="number" name="number_of_people" value="" id="people_input"><br><br>
+        </div>
+        <div class="edit_labels">
+            <label for="">Start Time</label><br><br>
+            <input type="time" name="start_time" value="" id="start_input_event"><br><br>
+            <label for="">Room Required</label><br><br>
+            <select name="room_required" id="room_input_select_edit">
+                <option value=""></option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select><br><br><br>
+            <input type="submit" value="Edit" class="edit_btn">
+        </div>
+        
+        <div class="submit_edit_btn" style="margin: 0;">
+
+           <label for="">Event Date</label><br><br>
+           <input type="date" name="event_date" value="" id="date_input"><br><br>
+           <label for="">Catering Required</label><br><br>
+           <select name="catering_required" id="catering_input_select_edit">
+               <option value=""></option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+        <br>
+        
+    </form>
+</div>
+<div class="room_table event_booked_table" id="room_table">
+    <table border="1px" class="room_table table">
+        <thead>
+            <tr>
+                <th>Customer Id</th>
+                <th>First Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Event Type</th>
+                <th>Start Time</th>
+                <th>Event Date</th>
+                <th>Number Of People</th>
+                <th>Room Required</th>
+                <th>Catering Required</th>
+                <th style="width: 15%;">Edit Table</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in database5 %}
+            <tr style="font-size: 13px;">
+                <td>{{data["User_Id"]}}</td>
+                <td style="width: 9%;">{{ data["First_Name"] }}</td>
+                <td>{{ data["Email"] }}</td>
+                <td>{{ data["Phone_Number"] }}</td>
+                <td>{{ data["Event_Name"] }}</td>
+                <td>{{ data["Start_Time"] }}</td>
+                <td>{{ data["Event_Date"] }}</td>
+                <td>{{ data["Number_Of_People"] }}</td>
+                    {%if data["Room_Required"] == 1 %}
+                    <td>True</td>
+                    {%else%}
+                    <td>False</td>
+                    {%endif%}
+                    {%if data["Catering_Required"] == 1 %}
+                    <td>True</td>
+                    {%else%}
+                    <td>False</td>
+                    {%endif%}
+                <td>
+                    <div class="button">
+                        <div class="edit">
+                            <button onclick="toggle_edit('{{ data['EVENT_ID'] }}','{{ data['Event_Name'] }}','{{ data['Start_Time'] }}','{{ data['Event_Date'] }}','{{ data['Number_Of_People'] }}','{{ data['Room_Required'] }}','{{ data['Catering_Required'] }}',)">Edit</button>
+                        </div>
+                        <div class="delete">
+                            <button onclick="toggle_delete('{{data['EVENT_ID']}}')">Delete</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table><br>
+    {%else%}
+    <h1 style="text-align: center;color: var(--text_color2);margin-top: 10%;">No Events Booked!</h1>
+    {%endif%}
+    
+<div class="room_buttons">
+    <a href="{{url_for('event_book')}}"><button class="refreshe_button">Refreshe</button></a>
+</div>
+</div>
+<script>
+        function toggle_edit(eid,eventname,start,date,people,room,catering) {
+        const id = document.getElementById("event_number");
+        const eidd = document.getElementById("event_id_input_edit")
+        const deleteSquare = document.querySelector('.delete_square');
+        const editSquare = document.querySelector('.edit_square');
+        const ev_n = document.getElementById("event_type_input_select");
+        const s_tarts = document.getElementById("start_input_event");
+        const d_ate = document.getElementById("date_input");
+        const p_eople = document.getElementById("people_input");
+        const r_oom = document.getElementById("room_input_select_edit");
+        const c_atering = document.getElementById("catering_input_select_edit");
+        id.innerHTML = eid;
+        eidd.value = eid;
+        ev_n.value = eventname;
+        s_tarts.value = start;
+        d_ate.value = date;
+        p_eople.value = people;
+        r_oom.value = room;
+        c_atering.value = catering;
+
+
+        if (editSquare.style.display === 'block') {
+            editSquare.style.display = 'none';
+        } else {
+            deleteSquare.style.display = 'none'; 
+            editSquare.style.display = 'block';
+        }
+    }
+
+    function toggle_delete(eid) {
+        console.log(eid)
+        const d_s = document.getElementById("event_id_input");
+        const editSquare = document.querySelector('.edit_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        const xc = document.getElementById("event_id_input_delete");
+        xc.value = eid;
+        d_s.innerHTML = eid;
+          
+        if (deleteSquare.style.display === 'block') {
+            deleteSquare.style.display = 'none';
+            const x = document.querySelector('.add_square')
+        } else {
+            editSquare.style.display = 'none'; 
+            deleteSquare.style.display = 'block';
+        }
+    }
+
+    function toggle_close(){
+        const editSpp = document.getElementById('edit_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        editSpp.style.display = "none";
+        deleteSquare.style.display = "none";
+
+    }
+
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1); // Set to tomorrow
+    tomorrow.setHours(0, 0, 0, 0); // Clear time for comparison
+    
+    const checkInInput = document.getElementById('date_input');
+    checkInInput.setAttribute('min', tomorrow.toISOString().split('T')[0])
+
+    checkInInput.addEventListener('change', function() {
+        const checkInDate = new Date(checkInInput.value);
+        checkInDate.setDate(checkInDate.getDate() + 1); // Check-out must be at least one day after check-in
+    });
+
+
+
+    function liveSearch() {
+        const searchInput = document.getElementById('search_input').value;
+        fetch('/search_event_book', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `search=${encodeURIComponent(searchInput)}`
+        })
+        .then(response => response.json())
+        .then(data => updateRoomTable(data))
+        .catch(err => console.error('Error:', err));
+    }
+    
+    function updateRoomTable(rooms) {
+        const roomTable = document.getElementById('room_table');
+        roomTable.innerHTML = `
+            <table border="1px" class="room_table table">
+            <thead>
+                <tr style: font-size:15px;"">
+                    <th>Customer Id</th>
+                    <th>First Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Event Type</th>
+                    <th>Start Time</th>
+                    <th>Event Date</th>
+                    <th>Number Of People</th>
+                    <th>Room Required</th>
+                    <th>Catering Required</th>
+                    <th style="width: 15%;">Edit Table</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rooms.map(data => `
+                    <tr style="font-size: 13px;">
+                        <td>${data["User_Id"]}</td>
+                        <td style="width: 9%;">${data["First_Name"]}</td>
+                        <td>${data["Email"]}</td>
+                        <td>${data["Phone_Number"]}</td>
+                        <td>${data["Event_Name"]}</td>
+                        <td>${data["Start_Time"]}</td>
+                        <td>${data["Event_Date"]}</td>
+                        <td>${data["Number_Of_People"]}</td>
+                        <td>${data["Room_Required"] === 1 ? 'True' : 'False'}</td>
+                        <td>${data["Catering_Required"] === 1 ? 'True' : 'False'}</td>
+                        <td>
+                           <div class="button">
+                        <div class="edit">
+                            <button onclick="toggle_edit('${ data['EVENT_ID'] }','${ data['Event_Name'] }','${ data['Start_Time'] }','${ data['Event_Date'] }','${ data['Number_Of_People'] }','${ data['Room_Required'] }','${ data['Catering_Required'] }',)">Edit</button>
+                        </div>
+                        <div class="delete">
+                            <button onclick="toggle_delete('${data['EVENT_ID']}')">Delete</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+         `).join('')}
+        </tbody>
+     </table><br>
+    
+<div class="room_buttons">
+    <a href="{{url_for('event_book')}}"><button class="refreshe_button">Refreshe</button></a>
+</div>
+</div>
+    `;
+}
+
+</script>
+
+{% endblock %}

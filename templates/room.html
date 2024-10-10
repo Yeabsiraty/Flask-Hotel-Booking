@@ -1,0 +1,198 @@
+{%extends "forall.html"%}
+{%block content%}
+<div class="top_image"></div>
+<div class="room_h1"><h1>Rooms.</h1></div>
+    <div class="room_text_img reveals">
+        <div class="room_img">
+            <div class="container-sec">
+                <img src="../static/pesdantiallll.jpg" alt="" class="imgs-sec"/>
+                <img src="../static/images/acco-img.jpg" alt="" class="imgs-sec"/>
+                <img src="../static/images/delux-img.jpg" alt="" class="imgs-sec"/>
+                </div>
+        </div>
+        <div class="room_text">
+           
+            <p class="pres_text_phone"><h1 style="text-align: center;">Presdiantial.</h1>
+                    laudantium temporibus unde, sint omnis, incidunt error. Totam, similique nisi culpa eos repellendus consequuntur facilis sit ipsa nemo minima vero animi adipisci laboriosam odit voluptatum labore,<span class="welcome-text-phone">nam dolore voluptatibus deleniti laborum. Vero rem repellat odit maiores optio non harum cum esse incidunt dicta repudiandae ut, omnis laborum autem dolore soluta, iure quibusdam tempore voluptates recusandae vitae  .</span> 
+                </p><br>
+                 
+                  
+                  <a href="{{url_for('book_selecting',room_type='presdantial')}}"><button  class="book_button">Book Now</button></a>
+                 
+                 </div>
+                 
+    </div><br>
+    <br>
+    <br>
+    <hr style="width: 60%;margin-left: 20%;"><br>
+    <div class="room_text_img reveals">
+        <div class="room_img">
+            <div class="container-sec">
+                <img src="../static/images/appartment-img.jpg" alt="" class="imgs2-sec"/>
+                <img src="../static/images/acco-img.jpg" alt="" class="imgs2-sec"/>
+                <img src="../static/images/delux-img.jpg" alt="" class="imgs2-sec"/>
+                </div>
+        </div>
+        <div class="room_text">
+           
+            <p><h1 style="text-align: center;">Delux.</h1>
+                    laudantium temporibus unde, sint omnis, incidunt error. Totam, similique nisi culpa eos repellendus consequuntur facilis sit ipsa nemo minima vero animi adipisci laboriosam odit voluptatum labore, <span class="welcome-text-phone">nam dolore voluptatibus deleniti laborum. Vero rem repellat odit maiores optio non harum cum esse incidunt dicta repudiandae ut, omnis laborum autem dolore soluta, iure quibusdam tempore voluptates recusandae vitae  .</span>
+                  </p><br>             
+                   
+                    
+                    <a href="{{url_for('book_selecting',room_type='delux')}}"><button  class="book_button">Book Now</button></a>
+                      
+   
+</div>
+    </div><br>
+    <br>
+    <br>
+    <hr style="width: 60%;margin-left: 20%;"><br>
+    <div class="room_text_img reveals">
+        <div class="room_img">
+            <div class="container-sec">
+                <img src="../static/images/appartment-img.jpg" alt="" class="imgs3-sec"/>
+                <img src="../static/images/acco-img.jpg" alt="" class="imgs3-sec"/>
+                <img src="../static/images/delux-img.jpg" alt="" class="imgs3-sec"/>
+                </div>
+        </div>
+        <div class="room_text">
+           
+            <p><h1 style="text-align: center;">Familly.</h1>
+                    laudantium temporibus unde, sint omnis, incidunt error. Totam, similique nisi culpa eos repellendus consequuntur facilis sit ipsa nemo minima vero animi adipisci laboriosam odit voluptatum labore, <span class="welcome-text-phone">nam dolore voluptatibus deleniti laborum. Vero rem repellat odit maiores optio non harum cum esse incidunt dicta repudiandae ut, omnis laborum autem dolore soluta, iure quibusdam tempore voluptates recusandae vitae  .</span></p><br>   
+                 
+                  
+                  <a href="{{url_for('book_selecting',room_type='familly')}}"><button  class="book_button">Book Now</button></a>
+                 
+                   </div>
+    </div><br>
+    <br>
+    <br>
+    <hr style="width: 60%;margin-left: 20%;"><br>
+    <div class="room_text_img reveals">
+        <div class="room_img">
+            <div class="container-sec">
+                <img src="../static/images/appartment-img.jpg" alt="" class="imgs4-sec"/>
+                <img src="../static/images/acco-img.jpg" alt="" class="imgs4-sec"/>
+                <img src="../static/images/delux-img.jpg" alt="" class="imgs4-sec"/>
+                </div>
+        </div>
+        <div class="room_text">
+           
+            <p><h1 style="text-align: center;">Appartment.</h1>
+                    laudantium temporibus unde, sint omnis, incidunt error. Totam, similique nisi culpa eos repellendus consequuntur facilis sit ipsa nemo minima vero animi adipisci laboriosam odit voluptatum labore, <span class="welcome-text-phone">nam dolore voluptatibus deleniti laborum. Vero rem repellat odit maiores optio non harum cum esse incidunt dicta repudiandae ut, omnis laborum autem dolore soluta, iure quibusdam tempore voluptates recusandae vitae  .</span>
+                </p><br>    
+                  
+                    
+                    <a href="{{url_for('book_selecting',room_type='appartment')}}"><button  class="book_button">Book Now</button></a>
+                  
+
+            </div>
+    </div><br>
+    <br>
+
+
+    
+    <br><br><br><br><br><br><br><br><br>
+    
+
+
+
+  <script >
+
+
+    
+
+
+
+
+
+
+
+    var firstindex = 0;
+function automaticslidess() {
+  setTimeout(automaticslidess, 1400);
+  var pics;
+  const img = document.getElementsByClassName("imgs-sec");
+  for (pics = 0; pics < img.length; pics++) {
+    img[pics].style.display = "none";
+  }
+  firstindex++;
+  if (firstindex > img.length) {
+    firstindex = 1;
+  }
+  img[firstindex - 1].style.display = "block";
+}
+automaticslidess();
+
+var firstindex = 0;
+function automaticslids() {
+  setTimeout(automaticslids, 1400);
+  var pics;
+  const img = document.getElementsByClassName("imgs2-sec");
+  for (pics = 0; pics < img.length; pics++) {
+    img[pics].style.display = "none";
+  }
+  firstindex++;
+  if (firstindex > img.length) {
+    firstindex = 1;
+  }
+  img[firstindex - 1].style.display = "block";
+}
+automaticslids();
+
+var firstindex = 0;
+function automaticslidsa() {
+  setTimeout(automaticslidsa, 1400);
+  var pics;
+  const img = document.getElementsByClassName("imgs3-sec");
+  for (pics = 0; pics < img.length; pics++) {
+    img[pics].style.display = "none";
+  }
+  firstindex++;
+  if (firstindex > img.length) {
+    firstindex = 1;
+  }
+  img[firstindex - 1].style.display = "block";
+}
+automaticslidsa();
+
+var firstindex = 0;
+function automaticslidsf() {
+  setTimeout(automaticslidsf, 1400);
+  var pics;
+  const img = document.getElementsByClassName("imgs4-sec");
+  for (pics = 0; pics < img.length; pics++) {
+    img[pics].style.display = "none";
+  }
+  firstindex++;
+  if (firstindex > img.length) {
+    firstindex = 1;
+  }
+  img[firstindex - 1].style.display = "block";
+}
+automaticslidsf();
+
+window.addEventListener('scroll',reveal);
+        function reveal(){
+        var reveals = document.querySelectorAll('.reveal')
+        for (var i=0; i<reveals.length; i++){
+        var windowheight = window.innerHeight;
+        var revealtop = reveals[i].getBoundingClientRect().top;
+        var revealpoint = 150;
+        if(revealtop<windowheight - revealpoint){
+          reveals[i].classList.add('active');
+        }
+        else{
+          reveals[i].classList.remove('active');
+        }
+        }
+        }
+    
+
+
+
+    
+
+</script>
+{%endblock%}

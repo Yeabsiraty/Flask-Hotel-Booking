@@ -1,0 +1,168 @@
+{%extends 'forall.html'%}
+{%block content%}
+<body>
+    
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap">
+  
+  
+   
+  
+   
+  
+    <div class="preloader" id="preloader">
+      <div class="preloader__logo">
+        <div class="preloader__circle"></div>
+      </div>
+    </div>
+
+
+<!--load circle done-->
+    <form action="" method="post" id="book_blur" class="event_book_form" novalidate style="font-weight: bold;"><br>
+        
+    <h1 style="text-align: center;">Event Name : <span style="color: orange;">{{event_type}}</span></h1>
+        {{form.csrf_token}}
+        {{ form.hidden_tag() }}
+        {%import "macro.html" as mac%}
+        <div class="form_event">        
+            <div class="left_event">
+        <span class="s_labels"> {{mac.render_field(form.f_name)}}</span><br>
+        <span class="s_labels"> {{mac.render_field(form.gender)}} </span><br>
+        <span class="s_labels"> {{mac.render_field(form.email)}} </span><br>
+        <span class="s_labels"> {{mac.render_field(form.event_date)}} </span><br>
+        <label for="room_field">Room Requires?</label><br>
+        <select name="room_field" id="" required>
+            <option value="">Select</option>
+            <option value="Yes" {% if room_field == "Yes" %}selected{% endif %}>Yes</option>
+            <option value="No" {% if room_field == "No" %}selected{% endif %}>No</option>
+        </select>
+        <h5 style="color: red;margin: auto;">{{error_room_field}}</h5>
+    </div>
+<div class="right_event">
+    <span class="s_labels"> {{mac.render_field(form.l_name)}}</span><br>
+    <span class="s_labels"> {{mac.render_field(form.p_no1)}}</span><br>
+    <label for="volume"> Number Of People (2-500) <span id="volumeValue" style="font-weight: bold;">({{ form.number_pep.data | default(2) }})</span>  :</label><br>
+    <input 
+        type="range" 
+        id="volume" 
+        name="number_pep" 
+        min="2" 
+        max="500" 
+        step="1" 
+        oninput="updateVolumeDisplay(this.value)"
+    >
+            <br>
+            {% for error in form.number_pep.errors %}
+                <div style="color: red;">{{ error }}</div>
+            {% endfor %} <br>
+    
+    <span class="s_labels"> {{mac.render_field(form.start_time)}}</span><br>
+    <label for="catering_field">Catering Requires?</label><br>
+        <select name="catering_field" id="" required>
+            <option value="">Select</option>
+            <option value="Yes" {% if catering_field == "Yes" %}selected{% endif %}>Yes</option>
+            <option value="No" {% if catering_field == "No" %}selected{% endif %}>No</option>
+        </select>
+        <h5 style="color: red;margin: auto;">{{error_catering_field}}</h5>
+</div>
+
+</div>
+
+        <br><br>
+<input type="submit" id="searchButton" class="book_button" placeholder="Book Event">
+<br><br><br>
+    </form><br><br><br>
+</body>
+
+{%if book_event == True%}
+<!--popup start-->
+
+<div id="popupModal" class="popup-modal popupModal">
+    <div class="popup-content">
+        <span class="close-popup">×</span>
+        
+        
+    </div>
+</div>
+{%endif%}
+<!--popup end-->
+
+
+
+
+
+<script>
+
+
+function updateVolumeDisplay(value) {
+            document.getElementById('volumeValue').textContent = value; 
+        }
+
+
+
+document.getElementById('searchButton').addEventListener('click', function () {
+    const preloader = document.getElementById('preloader');
+    const bookBlur = document.getElementById("book_blur");
+    const bookBlur2 = document.getElementById("book_blur2");
+    const bookBlur3 = document.getElementById("book_blur3");
+
+    // Show the preloader
+    preloader.style.display = "flex"; // Set the preloader to flex
+    bookBlur.classList.add('blurred');
+    bookBlur2.classList.add('blurred');
+
+    // Set a timeout for the preloader
+    setTimeout(() => {
+        // Hide the preloader and remove the blur effect
+        preloader.classList.add('preloader--invisible');
+        setTimeout(() => {
+            preloader.style.display = "none"; // Completely hide it
+            preloader.classList.remove('preloader--invisible'); // Reset the fade class
+            bookBlur.classList.remove('blurred');
+            bookBlur2.classList.remove('blurred');
+            bookBlur3.classList.remove('blurred');
+        }, 50); // Wait for the fade animation to complete
+    }, 8000); // Show preloader for 8 seconds
+});
+
+
+
+
+
+
+
+
+
+  // Set the minimum check-in date to tomorrow
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1); // Set to tomorrow
+tomorrow.setHours(0, 0, 0, 0); // Clear time for comparison
+
+const checkInInput = document.getElementById('check_in');
+checkInInput.setAttribute('min', tomorrow.toISOString().split('T')[0]); // Sets tomorrow's date as the min for check-in
+
+// Set the min attribute for check-out date based on the check-in date selection
+const checkOutInput = document.getElementById('check_out');
+
+checkInInput.addEventListener('change', function() {
+    const checkInDate = new Date(checkInInput.value);
+    checkInDate.setDate(checkInDate.getDate() + 1); // Check-out must be at least one day after check-in
+    checkOutInput.setAttribute('min', checkInDate.toISOString().split('T')[0]); // Set min check-out date
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+{%endblock%}

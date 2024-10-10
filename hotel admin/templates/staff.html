@@ -1,0 +1,297 @@
+{% extends 'forall.html' %}
+{% block content %}
+<h1 class="room_text">Staff</h1><br>
+
+<div class="search">
+    <input type="text" id="search_input" placeholder="room no search" oninput="liveSearch()">
+</div>
+<div class="delete_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Admin Confirmation</h1>
+    <h3 class="delete_confirm">Delete Id: <span style="color: red;" id="info_to_delete"></span></h3>
+    <form action="{{url_for('delete_staff')}}" method="post">
+        <input type="hidden" name="emp_id" id="delete_id_input" value="">
+        <input type="password" name="password" placeholder="Password" required><br><br>
+        <input type="submit" value="Delete" class="confirm_btn">
+    </form>
+</div>
+<div class="edit_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Edit satff Id: <span style="color: red;" id="edit_id_no"></span></h1>
+    <form action="{{url_for('edit_staff')}}" method="post">
+        <div class="edit_values">
+            <label for="">First Name</label><br><br>
+            <input type="hidden" name="em_id" value="" id="emp_id_input">
+            <input type="text" name="f_name" value="" id="f_name_input"><br><br>
+            <label for="">Phone Number</label><br><br>
+            <input type="number" name="p_no" value="" id="p_no_input"><br><br>
+            <label for="">Roll</label><br><br>
+            <select name="roll" id="roll_input" value="">
+                <option value=""></option>
+                <option value="Manager">Manager</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Security">Security</option>
+                <option value="Servant">Servant</option>
+                <option value="Chef">Chef</option>
+                <option value="Waiter">Waiter</option>
+            </select>
+        </div>
+        <div class="edit_labels">
+            <label for="">Last Name</label><br><br>
+            <input type="text" name="l_name" value="" id="l_name_input"><br><br>
+            <label for="">Email</label><br><br>
+            <input type="email" name="email" value="" id="email_input" ><br><br>
+            <label for="">Salary</label><br><br>
+            <input type="number" name="salary" value="" id="salary_input"><br><br>
+        </div>
+        
+        <div class="submit_edit_btn">
+            <input type="submit" value="Edit" class="edit_btn">
+        </div>
+    </form>
+</div>
+
+<div class="edit_square add_square" style="display:none;">
+    <h1 class="close_button" onclick="toggleclose()">✖</h1>
+    <h1 class="delete_confirm">Add Room</h1>
+    <form action="{{url_for('add_staff')}}" method="post">
+        <div class="edit_values">
+            <label for="">First Name</label><br><br>
+            <input type="text" name="f_name" value=""><br><br>
+            <label for="">Phone Number</label><br><br>
+            <input type="number" name="p_no" value=""><br><br>
+            <label for="">Roll</label><br><br>
+            <select name="roll" id="roll">
+                <option value=""></option>
+                <option value="Manager">Manager</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Security">Security</option>
+                <option value="Servant">Cleaner</option>
+                <option value="Chef">Shef</option>
+                <option value="Waiter">Waiter</option>
+            </select>
+        </div>
+        <div class="edit_labels">
+            <label for="">Last Name</label><br><br>
+            <input type="text" name="l_name" value=""><br><br>
+            <label for="">Email</label><br><br>
+            <input type="email" name="email" value=""><br><br>
+            <label for="">Salary</label><br><br>
+            <input type="number" name="salary" value=""><br><br>
+        </div>
+        
+        <div class="submit_edit_btn">
+            <input type="submit" value="Add" class="add_btn admin_add_btn">
+        </div>
+    </form>
+</div>
+{%if  database6%}
+<div class="room_table event_booked_table" id="room_table">
+    <table border="1px" class="room_table table">
+        <thead>
+            <tr>
+                <th>Staff Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Roll</th>
+                <th>Salary</th>
+                <th style="width: 15%;">Edit Table</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in database6 %}
+            <tr>
+                <td>{{ data["Employee_Id"]}}</td>
+                <td>{{data["First_Name"]}}</td>
+                <td>{{data["Last_Name"]}}</td>
+                <td>{{data["Phone_Number"]}}</td>
+                <td>{{data["Email"]}}</td>
+                <td>{{data["Roll"]}}</td>
+                <td>{{data["Salary"]}}</td>
+                <td>
+                    <div class="button">
+                        <div class="edit">
+                            <button onclick="toggleEdit('{{ data['Employee_Id'] }}','{{data['First_Name']}}','{{data['Last_Name']}}','{{data['Phone_Number']}}','{{data['Email']}}','{{data['Roll']}}','{{data['Salary']}}')">Edit</button>
+                        </div>
+                        <div class="delete">
+                            <button onclick="toggle_delete('{{ data['Employee_Id'] }}')">Delete</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table><br>
+    {%endif%}
+    <button class="add_btn" onclick="toggleadd()">Add</button><br><br>
+    
+    <a href="{{url_for('staff')}}"><button style="width: 20%;" class="refreshe_button">Refreshe</button></a>
+</div>
+
+<script>
+    function toggleEdit(id,fn,ln,ph,em,roll,salary) {
+        const deleteSquare = document.querySelector('.delete_square');
+        const editSquare = document.querySelector('.edit_square');
+        const x = document.querySelector('.add_square')
+        const ids = document.getElementById("emp_id_input")
+        const fns = document.getElementById("f_name_input")
+        const lns = document.getElementById("l_name_input")
+        const phs = document.getElementById("p_no_input")
+        const ems = document.getElementById("email_input")
+        const rolls = document.getElementById("roll_input")
+        const sals = document.getElementById("salary_input") 
+        const sp2 = document.getElementById("edit_id_no")
+
+        sp2.innerHTML = id;
+        ids.value = id;
+        fns.value = fn;
+        lns.value = ln;
+        phs.value = ph;
+        ems.value = em;
+        rolls.value = roll;
+        sals.value = salary;
+
+        if (editSquare.style.display === 'block') {
+            editSquare.style.display = 'none';
+        } else {
+            deleteSquare.style.display = 'none'; 
+            editSquare.style.display = 'block';
+            x.style.display = 'none.'
+        }
+    }
+
+    function toggle_delete(eid) {
+        const editSquare = document.querySelector('.edit_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        const x = document.querySelector('.add_square')
+        const prp = document.getElementById("info_to_delete")
+        const did = document.getElementById("delete_id_input")
+
+        did.value = eid;
+
+        prp.innerHTML = eid;
+        
+        if (deleteSquare.style.display === 'block') {
+            deleteSquare.style.display = 'none';
+            const x = document.querySelector('.add_square')
+        } else {
+            editSquare.style.display = 'none'; 
+            deleteSquare.style.display = 'block';
+            x.style.display = 'none';
+        }
+    }
+
+    function toggleadd() {
+        const editSquare = document.querySelector('.edit_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        const x = document.querySelector('.add_square')
+        
+        if (x.style.display === 'block') {
+            x.style.display = 'none';
+        } else {
+            x.style.display = 'block';
+            editSquare.style.display = 'none'; 
+            deleteSquare.style.display = 'none';
+        }
+    }
+
+    function toggleclose(){
+        const editSquare = document.querySelector('.edit_square');
+        const deleteSquare = document.querySelector('.delete_square');
+        const x = document.querySelector('.add_square')
+
+        
+        x.style.display = 'none';
+        editSquare.style.display = 'none'; 
+        deleteSquare.style.display = 'none';
+    }
+
+
+    function liveSearch() {
+        const searchInput = document.getElementById('search_input').value;
+        console.log("Searching for:", searchInput);  // Debug statement
+    
+        fetch('/search_staff', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `search=${encodeURIComponent(searchInput)}`
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Search results received:", data);  // Debug statement
+            updateRoomTable(data);
+        })
+        .catch(error => {
+            console.error("There was a problem with the fetch operation:", error);
+        });
+    }
+    
+    function updateRoomTable(rooms) {
+        const roomTable = document.getElementById('room_table');
+        roomTable.innerHTML = `
+            <table border="1px" class="room_table table">
+                <thead>
+                    <tr>
+                        <th>Staff Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Roll</th>
+                        <th>Salary</th>
+                        <th style="width: 15%;">Edit Table</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rooms.length > 0 ? rooms.map(data => `
+                        <tr>
+                            <td>${data["Employee_Id"]}</td>
+                            <td>${data["First_Name"]}</td>
+                            <td>${data["Last_Name"]}</td>
+                            <td>${data["Phone_Number"]}</td>
+                            <td>${data["Email"]}</td>
+                            <td>${data["Roll"]}</td>
+                            <td>${data["Salary"]}</td>
+                            <td>
+                                <div class="button">
+                                    <div class="edit">
+                                        <button onclick="toggleEdit('${data['Employee_Id']}','${data['First_Name']}','${data['Last_Name']}','${data['Phone_Number']}','${data['Email']}','${data['Roll']}','${data['Salary']}')">Edit</button>
+                                    </div>
+                                    <div class="delete">
+                                        <button onclick="toggle_delete('${data['Employee_Id']}')">Delete</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('') : '<tr><td colspan="8">No results found.</td></tr>'}
+                     </tbody>
+            </table>
+        
+
+    
+    <div class="room_buttons">
+    <button class="add_btn" onclick="toggle_add()">Add</button><br>
+    <a href="{{url_for('staff')}}"><button class="refreshe_button">Refreshe</button></a>
+</div>
+</div><br><br><br>
+        `;
+    }
+
+
+
+
+
+
+
+</script>
+
+{% endblock %}
