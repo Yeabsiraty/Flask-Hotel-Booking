@@ -13,3 +13,30 @@
 3. on the first main.py change this code to make the email sending process work the hotel admin have no email sending process
       passw = "" # use your email password
       from_user = ""  # use your email on this 
+
+4. to login in admin dashboard first you need to edit main.py found inside hotel admin
+      1) on line 37 edit the status_check code delete 'not' or replace the status_check method with this code until you logeed in and              create an admin:
+                        def status_check(f):
+                            @wraps(f)
+                            def decorated_function(*args, **kwargs):
+                                if  1 != 1 : 
+                                    return redirect(url_for("login")) 
+                                return f(*args, **kwargs)
+                            return decorated_function
+      2) after you change the status_check code now simplly add this url on the browser next to the page url like this
+            - add dashboard next to the url like this
+                  - http://127.0.0.1:5000/dashboard
+                  - and now you redirect to the dashboard so got to the staff and add employee and dont forget his or her Employee_Id                         first name and last name.
+                  - goto admin and click on add button and add new admin dont forget the Employee_Id,First_Name and Last_Name must be the                     same with the staff table data 
+                  - after you add the admin dont forget to change the status_check method with this code which found on line 37 
+                        def status_check(f):
+                            @wraps(f)
+                            def decorated_function(*args, **kwargs):
+                                if "status" not in session or session["status"] == False:
+                                    return redirect(url_for("login")) 
+                                return f(*args, **kwargs)
+                            return decorated_function
+
+------------------------------------------------- Thank You ---------------------------------------------------------
+      
+      
