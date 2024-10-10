@@ -20,10 +20,10 @@ import json
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "thisissecret@34256^&"
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '7890'
-app.config['MYSQL_DB'] = 'My_Hotel'
+app.config['MYSQL_HOST'] = ''
+app.config['MYSQL_USER'] = ''
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = ''
 app.permanent_session_lifetime = timedelta(days=5)
 
 
@@ -248,8 +248,8 @@ def book_room(r_no):
                     name = f_name+" "+l_name
                     email = emailu
                     messages = clean(escape(f"Dear {f_name} Your Reserve Hotel from Hotel is successfully Done!\n Your Room_no is: {r_no}\nYour Check_In is: {cookie.get("check_in")}\n Your Check Out: {cookie.get("check_out")}\nHave a Good Time!"))
-                    passw = "jvqo ohff thol ovay"
-                    from_user = "yeabsiratesfaye4118@gmail.com"
+                    passw = ""
+                    from_user = ""
                     to_user = email
                     subject = "Hotel Booking"
                     message = MIMEMultipart()
@@ -364,8 +364,8 @@ def event_booking(event_type):
                                 name = f_name+" "+l_name
                                 email = email
                                 messages = clean(escape(f"Dear {f_name} Your Reserve Hotel from Hotel is successfully Done!\n Your Event Type is: {event_type}\nYour Event Date is: {event_date}\n Your Start Time: {start_time}\nRoom Required: No\nCatering Required: Yes\nHave a Good Time!"))
-                                passw = "jvqo ohff thol ovay"
-                                from_user = "yeabsiratesfaye4118@gmail.com"
+                                passw = ""
+                                from_user = ""
                                 to_user = email
                                 subject = "Hotel Booking"
                                 message = MIMEMultipart()
@@ -404,8 +404,8 @@ def event_booking(event_type):
                                 name = f_name+" "+l_name
                                 email = email
                                 messages = clean(escape(f"Dear {f_name} Your Reserve Hotel from Hotel is successfully Done!\n Your Event Type is: {event_type}\nYour Event Date is: {event_date}\n Your Start Time: {start_time}\nRoom Required: Yes\nCatering Required: Yes\nHave a Good Time!"))
-                                passw = "jvqo ohff thol ovay"
-                                from_user = "yeabsiratesfaye4118@gmail.com"
+                                passw = ""
+                                from_user = ""
                                 to_user = email
                                 subject = "Hotel Booking"
                                 message = MIMEMultipart()
@@ -443,8 +443,8 @@ def event_booking(event_type):
                             name = f_name+" "+l_name
                             email = email
                             messages = clean(escape(f"Dear {f_name} Your Reserve Hotel from Hotel is successfully Done!\n Your Event Type is: {event_type}\nYour Event Date is: {event_date}\n Your Start Time: {start_time}\nRoom Required: No\nCatering Required: No\nHave a Good Time!"))
-                            passw = "jvqo ohff thol ovay"
-                            from_user = "yeabsiratesfaye4118@gmail.com"
+                            passw = ""
+                            from_user = ""
                             to_user = email
                             subject = "Hotel Booking"
                             message = MIMEMultipart()
@@ -487,17 +487,6 @@ def event_booking(event_type):
 
 
 
-@app.route('/upload', methods=['POST','GET'])
-def upload():
-    if request.method == 'POST':
-        image_file = request.files['image']
-        if image_file:
-            cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO Hotel_Rooms (Room_Type, Room_Price,Room_Image, Room_Size, Room_Availability ) VALUES ('Deluxe',95,%s, 104,true);",(image_file.read(),))
-            mysql.connection.commit()
-            cur.close()
-            return render_template("home_page.html")  # Directly return the index to show the updated list of images
-    return render_template("upload.html")
 
 
 if __name__ == "__main__":
